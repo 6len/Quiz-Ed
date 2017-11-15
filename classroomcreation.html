@@ -1,0 +1,223 @@
+<html>
+
+<head>
+    <title>QuizEd Classroom Creation</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="bootstrap/3.3.7/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <script src="bootstrap/3.3.7/js/bootstrap.min.js"></script>
+
+    <link rel="icon" type="image/png" href="croissant.png">
+
+    <!-- Special version of Bootstrap that only affects content wrapped in .bootstrap-iso -->
+    <link rel="stylesheet" href="bootstrap-iso.css" />
+</head>
+
+<!-- Inline CSS based on choices in "Settings" tab -->
+<style>
+    .bootstrap-iso .formden_header h2,
+    .bootstrap-iso .formden_header p,
+    .bootstrap-iso form {
+        font-family: Arial, Helvetica, sans-serif;
+        color: #ffffff
+    }
+    
+    .bootstrap-iso form button,
+    .bootstrap-iso form button:hover {
+        color: #ffffff !important;
+    }
+    
+    .bootstrap-iso .form-control:focus {
+        border-color: #ff2828;
+        -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075), 0 0 8px rgba(255, 40, 40, 0.6);
+        box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075), 0 0 8px rgba(255, 40, 40, 0.6);
+    }
+    
+    <style>.bootstrap-iso .formden_header h2,
+    .bootstrap-iso .formden_header p,
+    .bootstrap-iso form {
+        font-family: Arial, Helvetica, sans-serif;
+        color: #ffffff
+    }
+    
+    .bootstrap-iso form button,
+    .bootstrap-iso form button:hover {
+        color: #ffffff !important;
+    }
+    
+    .bootstrap-iso .btn-custom {
+        background: #6e6df5
+    }
+    
+    .bootstrap-iso .btn-custom:hover {
+        background: #5a59e1;
+    }
+    
+    .bootstrap-iso .form-control:focus {
+        border-color: #ff2828;
+        -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075), 0 0 8px rgba(255, 40, 40, 0.6);
+        box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075), 0 0 8px rgba(255, 40, 40, 0.6);
+    }
+    
+    <style>.bootstrap-iso .formden_header h2,
+    .bootstrap-iso .formden_header p,
+    .bootstrap-iso form {
+        font-family: Arial, Helvetica, sans-serif;
+        color: #ffffff
+    }
+    
+    .bootstrap-iso form button,
+    .bootstrap-iso form button:hover {
+        color: #ffffff !important;
+    }
+    
+    .bootstrap-iso .btn-custom {
+        background: #f93434
+    }
+    
+    .bootstrap-iso .btn-custom:hover {
+        background: #e52020;
+    }
+    
+    .bootstrap-iso .form-control:focus {
+        border-color: #ff2828;
+        -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075), 0 0 8px rgba(255, 40, 40, 0.6);
+        box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075), 0 0 8px rgba(255, 40, 40, 0.6);
+    }
+    
+    .asteriskField {
+        color: red;
+    }
+    
+    .container_form {
+        width: 80%;
+        margin-right: auto;
+        margin-left: auto;
+    }
+    
+    body {
+        background-color: #2c3e50
+    }
+
+</style>
+
+<body>
+
+
+
+
+    <!------------------------------------------------------------------------------------------------------------------------------------------
+	-----------------------------------------------------------Navigation bar-------------------------------------------------------------------
+	-------------------------------------------------------------------------------------------------------------------------------------------->
+
+    <nav class="navbar navbar-inverse">
+        <div class="container-fluid">
+            <div class="navbar-header">
+                <img src="croissant.png" style="height:40px; margin-top: 3px; margin-bottom: 3px; margin-right:8px">
+                <a class="navbar-brand" style="color:white ; text-shadow: 1px 1px black; font-family:Palatino Linotype, sans-serif; font-size:26px" href="index.html">QuizEd</a>
+            </div>
+            <ul class="nav navbar-nav">
+                <li class="active"><a href="index.html">Home</a></li>
+                <li class="dropdown"><a class="dropdown-toggle" data-toggle="dropdown" href="classroom.html">Classes <span class="caret"></span></a>
+                    <ul class="dropdown-menu">
+                        <li><a href="classroom.html">MsMcGovernGeo</a></li>
+                        <li><a href="classroom.html">MsDalyMaths</a></li>
+                        <li><a href="classroom.html">MrNooneWoodwork</a></li>
+                    </ul>
+                </li>
+                <li><a href="classroomcreation.html">Classroom Creation</a></li>
+                <li><a href="quiz.html">Quiz Creation</a></li>
+            </ul>
+            <ul class="nav navbar-nav navbar-right">
+                <li><a href="index.html"><span class="glyphicon glyphicon-user"></span> Sign Up</a></li>
+                <li><a href="index.html"><span class="glyphicon glyphicon-log-in"></span> Login</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <!------------------------------------------------------------------------------------------------------------------------------------------
+	----------------------------------------------------------------- Body ---------------------------------------------------------------------
+	-------------------------------------------------------------------------------------------------------------------------------------------->
+
+
+
+    <div class="container_form">
+        <!-- HTML Form (wrapped in a .bootstrap-iso div) -->
+        <div class="bootstrap-iso">
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col-md-6 col-sm-6 col-xs-12">
+                        <div class="formden_header">
+                            <h2 align="center">
+                                Classroom Creation
+                            </h2>
+                            <p>
+                            </p>
+                        </div>
+                        <form method="post">
+                            <div class="form-group ">
+                                <label class="control-label requiredField" for="classroomname">
+       Unique classroom name
+       <span class="asteriskField">
+        *
+       </span>
+      </label>
+                                <input class="form-control" id="classroomname" name="classroomname" placeholder="Classroom name" type="text" />
+                                <span class="help-block" id="hint_classroomname">
+       This classroom name will be used for enrollment
+      </span>
+                            </div>
+                            <div class="form-group ">
+                                <label class="control-label requiredField" for="enrollmentkey">
+       Classroom enrollment key
+       <span class="asteriskField">
+        *
+       </span>
+      </label>
+                                <input class="form-control" id="enrollmentkey" name="enrollmentkey" placeholder="Enrolment key" type="text" />
+                            </div>
+                            <div class="form-group ">
+                                <label class="control-label " for="subject">
+       Subject (Optional)
+      </label>
+                                <input class="form-control" id="subject" name="subject" placeholder="Classroom title" type="text" />
+                                <span class="help-block" id="hint_subject">
+       This title will be displayed on top of the classroom interface. If not set, the classroom name will be displayed instead.
+      </span>
+                            </div>
+                            <div class="form-group ">
+                                <label class="control-label requiredField" for="email">
+       Email
+       <span class="asteriskField">
+        *
+       </span>
+      </label>
+                                <input class="form-control" id="email" name="email" placeholder="Your email address" type="text" />
+                                <span class="help-block" id="hint_email">
+       The classroom access details will be sent to this email address
+      </span>
+                            </div>
+                            <div class="form-group ">
+                                <label class="control-label " for="textarea">
+       Message for students (Optional)
+      </label>
+                                <textarea class="form-control" cols="40" id="textarea" name="textarea" placeholder="Enter your message which will be displayed below the subject title at the top of the classroom interface. " rows="10"></textarea>
+                            </div>
+                            <div class="form-group">
+                                <div>
+                                    <button class="btn btn-custom " name="submit" type="submit">
+        Submit
+       </button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</body>
+
+</html>
