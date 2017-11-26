@@ -26,10 +26,32 @@ input{
 
 button{
   padding: 8px 20px;
-  background-color: #ccccff;
+  background-color: #7638a5;
   color: #fff;
   border: none;
   cursor: pointer;
+}
+a{
+	color:white;
+}
+
+#hangman-creator{
+	border-bottom: 1px solid #ddd;
+	color:white;
+	text-align: center;
+}
+
+#new-game-btn{
+  padding: 8px 20px;
+  background-color: #7638a5;
+  color: #fff;
+  border: none;
+  cursor: pointer;
+}
+
+.mc-containers{
+	color:white;
+	text-align: center;
 }
 
 .addQuestions, h1{

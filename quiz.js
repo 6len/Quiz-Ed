@@ -1,3 +1,6 @@
+
+var database = firebase.database();
+
 var quiz = {
   //Array for questions
   questions: [],
@@ -13,6 +16,7 @@ var quiz = {
     });
     //upadate number of questions each time you add one
     view.displayNumberOfQuestions();
+    console.log(this.questions);
   },
 
   movingToNextQuestion: function(){

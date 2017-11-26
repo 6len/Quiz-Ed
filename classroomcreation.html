@@ -117,22 +117,33 @@
                 <img src="croissant.png" style="height:40px; margin-top: 3px; margin-bottom: 3px; margin-right:8px">
                 <a class="navbar-brand" style="color:white ; text-shadow: 1px 1px black; font-family:Palatino Linotype, sans-serif; font-size:26px" href="index.html">QuizEd</a>
             </div>
-            <ul class="nav navbar-nav">
-                <li class="active"><a href="index.html">Home</a></li>
-                <li class="dropdown"><a class="dropdown-toggle" data-toggle="dropdown" href="classroom.html">Classes <span class="caret"></span></a>
-                    <ul class="dropdown-menu">
-                        <li><a href="classroom.html">MsMcGovernGeo</a></li>
-                        <li><a href="classroom.html">MsDalyMaths</a></li>
-                        <li><a href="classroom.html">MrNooneWoodwork</a></li>
-                    </ul>
-                </li>
-                <li><a href="classroomcreation.html">Classroom Creation</a></li>
-                <li><a href="quiz.html">Quiz Creation</a></li>
-            </ul>
-            <ul class="nav navbar-nav navbar-right">
-                <li><a href="index.html"><span class="glyphicon glyphicon-user"></span> Sign Up</a></li>
-                <li><a href="index.html"><span class="glyphicon glyphicon-log-in"></span> Login</a></li>
-            </ul>
+            <div id="keys" style="display:none">
+                <ul class="nav navbar-nav">
+                    <li class="active"><a href="index.html">Home</a></li>
+                    <li class="dropdown"><a class="dropdown-toggle" data-toggle="dropdown" href="classroom.html">Classes <span class="caret"></span></a>
+                        <ul class="dropdown-menu">
+                            <li><a href="classroom.html">MsMcGovernGeo</a></li>
+                            <li><a href="classroom.html">MsDalyMaths</a></li>
+                            <li><a href="classroom.html">MrNooneWoodwork</a></li>
+                        </ul>
+
+                    </li>
+                    <li><a href="classroomcreation.html">Classroom Creation</a></li>
+                    <li><a href="quiz.html">Quiz Creation</a></li>
+                </ul>
+            </div>
+            <div id="logsign" style="display : none">
+                <ul class="nav navbar-nav navbar-right">
+                    <li><a href="#" onclick="signShow()"><span class="glyphicon glyphicon-user"></span> Sign Up</a></li>
+                    <li><a href="#" onclick="logShow()"><span class="glyphicon glyphicon-log-in"></span> Login</a></li>
+                </ul>
+            </div>
+            <div id="accountout" style="display : none">
+                <ul class="nav navbar-nav navbar-right">
+                    <li><a href="myaccount.html"><span class="glyphicon glyphicon-user"></span> My Account</a></li>
+                    <li><a href="#" onclick="logOut()"><span class="glyphicon glyphicon-log-in"></span> Logout</a></li>
+                </ul>
+            </div>
         </div>
     </nav>
 
@@ -219,5 +230,55 @@
     </div>
 
 </body>
+<script src="https://www.gstatic.com/firebasejs/4.5.2/firebase.js"></script>
+<script>
+    // Initialize Firebase
+    var config = {
+        apiKey: "AIzaSyCC63aB9OixrMJsXmtFnnUSlVGDvNgRw30",
+        authDomain: "quiz-ed.firebaseapp.com",
+        databaseURL: "https://quiz-ed.firebaseio.com",
+        projectId: "quiz-ed",
+        storageBucket: "quiz-ed.appspot.com",
+        messagingSenderId: "690022150231"
+    };
+    firebase.initializeApp(config);
+
+</script>
+
+<script>
+    var database = firebase.database();
+
+    firebase.auth().onAuthStateChanged(function(user) {
+        if (user) {
+            user = user;
+            myuser = user;
+            if (!user.emailVerified) {
+                user.sendEmailVerification().then(function() {
+                    alert("A verification email has been sent to your address, please use it before you can log in");
+                    firebase.auth().signOut();
+                }).catch(function(error) {
+
+                });
+            } else {
+                $("#logsign").hide();
+                $("#accountout").show();
+                $("#keys").show();
+            }
+        } else {
+            $("#logsign").show();
+            $("#accountout").hide();
+            $("#keys").hide();
+            window.location = "index.html";
+        }
+        firebase.database().ref("Teachers/" + user.uid).once("value", snapshot => {
+            const data = snapshot.val();
+            if (data) {} else {
+                alert("Oops, looks like you ended up somewhere you're not supposed to be!");
+                window.location = "index.html";
+            }
+        });
+    });
+
+</script>
 
 </html>
