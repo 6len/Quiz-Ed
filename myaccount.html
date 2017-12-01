@@ -11,13 +11,11 @@
 
     <title>My Account</title>
 
-    <link rel="stylesheet" href="bootstrap/3.3.7/css/bootstrap.min.css">
-    <script src="vendor/jquery/jquery.min.js"></script>
-    <script src="vendor/popper/popper.min.js"></script>
-    <script src="vendor/bootstrap/js/bootstrap.min.js"></script>
-    <link href="https://fonts.googleapis.com/css?family=Muli" rel="stylesheet">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
     <link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
-    <link href="acc.css" rel="stylesheet">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <link rel="stylesheet" href="myaccount.css">
 </head>
 
 <body>
@@ -57,6 +55,8 @@
         </div>
     </nav>
 
+
+
     <div class="">
         <!-- UI - X Starts -->
         <div class="ui-67">
@@ -66,14 +66,14 @@
                 <!-- Details -->
                 <div class="ui-details">
                     <!-- Name -->
-                    <h3 id="name-header">Steve Miller</h3>
+                    <h3 id="name-header">Nobody</h3>
                     <!-- Designation -->
-                    <h4>Client Account</h4>
+                    <h4>Teacher Account</h4>
                 </div>
                 <!-- Image -->
                 <div class="ui-image">
                     <!-- User Image -->
-                    <img src="https://api.adorable.io/avatars/285/abott@adorable.png" alt="Profile Picture" class="img-responsive" width="100" height="100">
+                    <img id="profileimage" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQhm0bo0KhH5PqP4wUjD4ZRA3fDy9JiLigMDL11TILWRGjwhHam3w" alt="Profile Picture" class="img-responsive" width="100" height="100">
                 </div>
             </div>
             <!-- Head Ends -->
@@ -83,99 +83,48 @@
 
                 <div class="row">
 
-                    <div class="col-sm-8 col-md-8 col-lg-8 col-lg-offset-2 acc-col">
-                        <section>
-                            <h3>Contact Information</h3>
-                            <h5>Update Contact Information</h5>
-                            <form class="ng-pristine ng-valid" role="form">
-                                <div class="row">
-                                    <div class="col-sm-12">
-                                        <label for="inputName" class="control-label">Name:</label>
-                                        <input type="text" class="form-control" id="inputName">
-                                    </div>
-                                </div>
-                                <div class="row">
-                                    <div class="col-sm-6">
-                                        <label for="inputEmail3" class="control-label">Email:</label>
-                                        <input type="email" class="form-control" id="inputEmail3">
-                                    </div>
-                                    <div class="col-sm-6">
-                                        <label for="inputPassword3" class="control-label">Phone Number:</label>
-                                        <input type="text" class="form-control" id="inputPassword3">
-                                    </div>
-                                </div>
-                                <div class="col-sm-12">
-                                    <div class="btn-div">
-                                        <a href="https://creativethoughtz.com" class="btn btn-success pull-right">Update</a>
-                                    </div>
-                                </div>
-                            </form>
-                        </section>
-
-
-
-                        <section>
-                            <h3>Login Information</h3>
-                            <h5>Update Login Information</h5>
-                            <form class="" role="form">
-                                <div class="row">
-                                    <div class="col-sm-12">
-                                        <label for="inputEmail3" class="control-label">Password:</label>
-                                        <div class="">
-                                            <input type="password" class="form-control" id="inputEmail3">
-                                        </div>
-                                    </div>
-                                    <div class="col-sm-12">
-                                        <label for="inputPassword3" class="control-label">Confirm:</label>
-                                        <div class="">
-                                            <input type="password" class="form-control" id="inputPassword3">
-                                        </div>
-                                    </div>
-                                    <div class="col-sm-12">
-                                        <div class="btn-div">
-                                            <a href="https://creativethoughtz.com" class="btn btn-success pull-right">Update</a>
-                                        </div>
-                                    </div>
-                                </div>
-                            </form>
-                        </section>
-
-
-                        <section>
-
-                            <h3>Personal Information</h3>
-                            <form class="ng-pristine ng-valid" role="form">
+                    <div class="col-sm-8 col-md-8 col-lg-8 col-lg-offset-2 acc-col" style="text-align:center" width="600x">
+                        <center>
+                            <section>
+                                <h3>Contact Information</h3>
+                                <h5>Update Contact Information</h5>
                                 <div class="row">
 
-                                    <div class="col-sm-12">
-                                        <label for="inputPassword3" class="col-sm-12 control-label">About Me:</label>
-                                        <div class="">
-                                            <textarea rows="5" class="form-control" id="inputPassword3"></textarea>
-                                        </div>
-                                    </div>
-                                    <div class="col-sm-12">
-                                        <div class="btn-div">
-                                            <a href="https://creativethoughtz.com" class="btn btn-success pull-right">Update</a>
-                                        </div>
-                                    </div>
-                                </div>
-                            </form>
-                        </section>
 
+                                    <input type="email" class="email" id="inputEmail3" placeholder="user@example.com">
+                                    <button class="btn" onclick="emailchange()">Update Email</a>
+                                </div><br>
+
+
+
+                                <h3>Login Information</h3>
+                                <h5>Click the button to reset your password</h5>
+                                <button type="button" class="btn" onclick="resetpass()">Reset Password</button><br><br>
+                                    <p id="errorid"></p>
+                                    <h5>Enter Teacher Code Below</h5>
+                                    <label>Teacher Code:</label><input type="text" class="teachercode" id="teachercode" placeholder="ggh545545">
+                                    <input type="submit" value="Submit" class="btn">
+                                
+                                
+                                <input type="text" placeholder = "Image URL" id = "imageURL"><button type = "button" class="btn" onclick="imageChange()">Change Image</button>
+
+                            </section>
+                        </center>
+
+                        </div>
+                        <!-- col-8 -->
                     </div>
-                    <!-- col-8 -->
-                </div>
 
+                </div>
+                <!-- Content Ends -->
             </div>
-            <!-- Content Ends -->
+            <!-- UI - X Ends -->
         </div>
-        <!-- UI - X Ends -->
-    </div>
 
 </body>
 <script src="https://www.gstatic.com/firebasejs/4.5.2/firebase.js"></script>
 <script>
-    // Initialize Firebase
+    var myuser;
     var config = {
         apiKey: "AIzaSyCC63aB9OixrMJsXmtFnnUSlVGDvNgRw30",
         authDomain: "quiz-ed.firebaseapp.com",
@@ -188,9 +137,11 @@
 
     var user = firebase.auth().currentUser;
 
+
     firebase.auth().onAuthStateChanged(function(user) {
         if (user) {
             var user = user;
+            myuser = user;
             if (!user.emailVerified) {
                 user.sendEmailVerification().then(function() {
                     alert("A verification email has been sent to your address, please use it before you can log in");
@@ -200,22 +151,68 @@
                 });
             } else {
                 console.log('user', user);
+                $("#forms").fadeOut(500);
+                $("#LogInForm").fadeOut(500);
+                $("#SignInForm").fadeOut(500);
                 $("#logsign").hide();
                 $("#accountout").show();
             }
         } else {
             window.location = "index.html";
         }
-        firebase.database().ref("Teachers/" + user.uid).once("value", snapshot => {
+        fillpage();
+        teachcheck();
+    });
+
+    function teachcheck() {
+        firebase.database().ref("Teachers/" + myuser.uid).once("value", snapshot => {
             const data = snapshot.val();
             if (data) {
                 $("#keys").show();
             }
         });
-    });
+    }
 
     function logOut() {
         firebase.auth().signOut();
+    }
+
+    function fillpage() {
+        var name = document.getElementById("name-header");
+        name.innerHTML = myuser.displayName;
+
+        var image = document.getElementById("profileimage");
+        image.src = myuser.photoURL;
+
+
+    }
+
+    function resetpass() {
+        firebase.auth().sendPasswordResetEmail(myuser.email).then(function() {
+            alert("Password reset email has been sent");
+        }).catch(function(error) {
+            // An error happened.
+        });
+    }
+
+    function emailchange() {
+        var oldemail = myuser.email;
+        var echange = $("#inputEmail3").val();
+        alert(echange);
+        myuser.updateEmail(echange).then(function() {
+            alert("Email has been changed");
+        }).catch(function(error) {
+            alert("Invalid email or need to re-log");
+        });
+    }
+    
+    function imageChange() {
+        var image = $("#imageURL").val();
+        myuser.updateProfile({
+            photoURL : image
+        }).then(function(){
+            fillpage();
+        });
     }
 
 </script>

@@ -5,7 +5,7 @@ window.onload = function () {
         't', 'u', 'v', 'w', 'x', 'y', 'z'];
   
   var categories;         // Array of topics
-  var chosenCategory;     // Selected catagory
+  var chosenCategory= [""];     // Selected catagory
   var getHint ;          // Word getHint
   var word ;              // Selected word
   var guess ;             // Geuss
@@ -13,7 +13,13 @@ window.onload = function () {
   var lives ;             // Lives
   var counter ;           // Count correct geusses
   var space;              // Number of spaces in word '-'
-
+  
+  	var hints= [""];
+	//chosenCategory = ["melissa", "glen", "adam", "megan", "dominik", "sean", "moon"];
+	//hints = ["Doesn't like curry", "Likes purple croissants", "Creator of facebook group chat", "Plans a November wedding", "Has a terrible landlord", "6th member of the team", "What shape is our croissant?"];
+	chosenCategory = ["default"];
+	hints= ["Please add some words"];
+	
   // Get elements
   var showLives = document.getElementById("mylives");
   var showCatagory = document.getElementById("scatagory");
@@ -38,17 +44,7 @@ window.onload = function () {
     }
   }
     
-  
-  // Select Catagory
-  var selectCat = function () {
-    if (chosenCategory === categories[0]) {
-      catagoryName.innerHTML = "The Chosen Category Is Team 17";
-    } else if (chosenCategory === categories[1]) {
-      catagoryName.innerHTML = "The Chosen Category Is Films";
-    } else if (chosenCategory === categories[2]) {
-      catagoryName.innerHTML = "The Chosen Category Is Cities";
-    }
-  }
+
 
   // Create geusses ul
    result = function () {
@@ -186,13 +182,7 @@ window.onload = function () {
     
   // Play
   play = function () {
-    categories = [
-        ["melissa", "glen", "adam", "megan", "dominik", "sean", "moon"],
-        ["alien", "forrest-gump", "gladiator", "godfather", "star-wars"],
-        ["dublin", "singapore", "bangkok", "amsterdam", "prague"]
-    ];
-
-    chosenCategory = categories[Math.floor(Math.random() * categories.length)];
+    //chosenCategory = ["melissa", "glen", "adam", "megan", "dominik", "sean", "moon", "alien", "forrest-gump", "gladiator", "godfather", "star-wars", "dublin", "singapore", "bangkok", "amsterdam", "prague"];
     word = chosenCategory[Math.floor(Math.random() * chosenCategory.length)];
     word = word.replace(/\s/g, "-");
     console.log(word);
@@ -204,7 +194,6 @@ window.onload = function () {
     space = 0;
     result();
     comments();
-    selectCat();
     canvas();
   }
 
@@ -214,15 +203,11 @@ window.onload = function () {
 
     hint.onclick = function() {
 
-      hints = [
-        ["Doesn't like curry", "Likes purple croissants", "Creator of facebook group chat", "Plans a November wedding", "Has a terrible landlord", "6th member of the team", "What shape is our croissant?"],
-        ["Science-Fiction horror film", "The person who likes to run", "Historical drama", "True boss", "A long time ago in a galaxy far, far away"],
-        ["Capital of Ireland", "Garden city", "Capital of Thailand", "Netherlands capital", "Czech Republic capital"]
-    ];
+      //hints = ["Doesn't like curry", "Likes purple croissants", "Creator of facebook group chat", "Plans a November wedding", "Has a terrible landlord", "6th member of the team", "What shape is our croissant?", "Science-Fiction horror film", "The person who likes to run", "Historical drama", "True boss", "A long time ago in a galaxy far, far away", "Capital of Ireland", "Garden city", "Capital of Thailand", "Netherlands capital", "Czech Republic capital"];
+    
 
-    var catagoryIndex = categories.indexOf(chosenCategory);
     var hintIndex = chosenCategory.indexOf(word);
-    showClue.innerHTML = "Clue : " +  hints [catagoryIndex][hintIndex];
+    showClue.innerHTML = "Clue : " +  hints [hintIndex];
 	 document.getElementById('clue').style.visibility = "visible"; 
 	 document.getElementById('clue').style.color = "yellow";
   };
@@ -270,6 +255,7 @@ win = function() {
 	if(autoconfetti==0){
 		modal.style.display = "block";
 		autoconfetti= startconfetti();
+		window.scrollTo(0, 0);
 	}
 }
 
@@ -290,7 +276,7 @@ window.onclick = function(event) {
     }
 }
 
-
+//This function generates the confetti
 var amount = 8;
 function confetti() {
 	for(var i = 0; i < amount * 2; i++) {
@@ -300,7 +286,39 @@ function confetti() {
 	}
 }
 
+
+//------------------------------------------------------------------------------------------------------- Creator -----------------------------------------------------------------------------------------------------------
+
+
+  //This runs when you click add question button
+  addWord= function(){
+	  // get the Error <p> by ID
+	var hmanErr = document.getElementById("hangmanAddError");
+    //Get each of the inputs by id
+    var wordInput = document.getElementById("wordInput");
+	var wordInputV = wordInput.value;
+    var hintInput = document.getElementById("hintInput");
+	var hintInputV = hintInput.value;
+	
+    //if both input values available add the values into the word and hint array
+	if(wordInput.value.match(/\D/) != null && hintInput.value.match(/\D/) != null){	
+		  if(chosenCategory[0]==="default"){
+			  chosenCategory.pop();
+			  hints.pop();  
+		  }
+		  
+		chosenCategory.push(wordInputV);
+		hints.push(hintInputV);
+		// hide Error <p>
+		hmanErr.setAttribute('style','visibility: hidden; color:red');
+	}
+	else{
+		hmanErr.setAttribute('style','visibility: visible; color:red');
+	}
+		//clear the inputs
+		wordInput.value = "";
+		hintInput.value = "";
+  }
+
 }
-
-
 
