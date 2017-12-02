@@ -1,0 +1,155 @@
+<html>
+
+<head>
+  <title>QuizEd Creator</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="bootstrap/3.3.7/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+  <script src="bootstrap/3.3.7/js/bootstrap.min.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/4.5.2/firebase.js"></script>
+
+  <link rel="icon" type="image/png" href="croissant.png">
+
+  <link rel="stylesheet" type="text/css" href="quiz.css">
+
+
+</head>
+
+<body>
+
+  <nav class="navbar navbar-inverse">
+    <div class="container-fluid">
+      <div class="navbar-header">
+        <img src="croissant.png" style="height:40px; margin-top: 3px; margin-bottom: 3px; margin-right:8px">
+        <a class="navbar-brand" style="color:white ; text-shadow: 1px 1px black; font-family:Palatino Linotype, sans-serif; font-size:26px" href="index.html">QuizEd</a>
+      </div>
+      <div id="keys" style="display:none">
+        <ul class="nav navbar-nav">
+          <li><a href="index.html">Home</a></li>
+          <li class="dropdown"><a class="dropdown-toggle" data-toggle="dropdown" href="classroom.html">Classes <span class="caret"></span></a>
+            <ul class="dropdown-menu">
+              <li><a href="classroom.html">MsMcGovernGeo</a></li>
+              <li><a href="classroom.html">MsDalyMaths</a></li>
+              <li><a href="classroom.html">MrNooneWoodwork</a></li>
+            </ul>
+
+          </li>
+          <li><a href="classroomcreation.html">Classroom Creation</a></li>
+          <li><a href="quiz.html">Quiz Creation</a></li>
+          <li class = "active"><a href="thequiz.html">Host a quiz</a></li>
+        </ul>
+      </div>
+      <div id = "stukeys" style="display:none">
+        <ul class="nav navbar-nav">
+          <li><a href="index.html">Home</a></li>
+        <li class = "active"><a href="thequiz.html">Join a quiz</a></li>
+      </ul>
+      </div>
+      <div id="logsign" style="display : none">
+        <ul class="nav navbar-nav navbar-right">
+          <li><a href="#" onclick="signShow()"><span class="glyphicon glyphicon-user"></span> Sign Up</a></li>
+          <li><a href="#" onclick="logShow()"><span class="glyphicon glyphicon-log-in"></span> Login</a></li>
+        </ul>
+      </div>
+      <div id="accountout" style="display : none">
+        <ul class="nav navbar-nav navbar-right">
+          <li><a href="myaccount.html"><span class="glyphicon glyphicon-user"></span> My Account</a></li>
+          <li><a href="#" onclick="logOut()"><span class="glyphicon glyphicon-log-in"></span> Logout</a></li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+  <div class="container">
+    <div id="thefield">
+      <ul class="list-group">
+
+    </div>
+  </div>
+
+
+  <script>
+    // Initialize Firebase
+    var config = {
+      apiKey: "AIzaSyCC63aB9OixrMJsXmtFnnUSlVGDvNgRw30",
+      authDomain: "quiz-ed.firebaseapp.com",
+      databaseURL: "https://quiz-ed.firebaseio.com",
+      projectId: "quiz-ed",
+      storageBucket: "quiz-ed.appspot.com",
+      messagingSenderId: "690022150231"
+    };
+    firebase.initializeApp(config);
+
+    var mycount = 1;
+    var database = firebase.database();
+    var quizname;
+    var myuser;
+
+
+    firebase.auth().onAuthStateChanged(function(user) {
+      if (user) {
+        user = user;
+        myuser = user;
+        if (!user.emailVerified) {
+          user.sendEmailVerification().then(function() {
+            alert("A verification email has been sent to your address, please use it before you can log in");
+            firebase.auth().signOut();
+          }).catch(function(error) {
+
+          });
+        } else {
+          $("#logsign").hide();
+          $("#accountout").show();
+        }
+      } else {
+        $("#logsign").show();
+        $("#accountout").hide();
+        $("#keys").hide();
+        window.location = "index.html";
+      }
+      teachcheck();
+    });
+
+    function teachcheck() {
+      firebase.database().ref("Teachers/" + myuser.uid).once("value", snapshot => {
+        const data = snapshot.val();
+        if (data) {
+          $("#keys").show();
+          var ref = firebase.database().ref("Teachers/" + myuser.uid + "/Quizzes");
+          ref.once('value', function(snapshot) {
+            snapshot.forEach(function(childSnapshot) {
+              var childKey = childSnapshot.key;
+              $("#thefield").append("<button type='button' class='list-group-item' onclick=startquiz('" + childKey + "')>" + childKey + "</button>");
+              // ...
+            });
+          });
+        } else {
+          $("#stukeys").show();
+          var thefield = document.getElementById("thefield");
+          thefield.innerHTML = "<input id='quizcode' type = 'text' placeholder = 'quiz code' </input> <button id = 'qjoin' type = 'btn btn-primary' onclick='joining()'>Join Quiz</button>";
+      }
+      $("#thefield").append("</ul>");
+    });
+  }
+
+    function logOut() {
+      firebase.auth().signOut();
+    }
+
+    function startquiz(thequizname) {
+      console.log(thequizname);
+    }
+
+    function joining(){
+      var quizcode = $("#quizcode").val();
+      setInterval(oneSecondFunction,1000);
+    }
+
+    function oneSecondFunction(){
+      var thefield = document.getElementById("thefield");
+      thefield.innerHTML = "<h1>Waiting for the quiz to start<h1>";
+    }
+
+  </script>
+
+</html>

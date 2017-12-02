@@ -21,9 +21,6 @@
 <body>
 
 
-    <!------------------------------------------------------------------------------------------------------------------------------------------
-	-----------------------------------------------------------Navigation bar-------------------------------------------------------------------
-	-------------------------------------------------------------------------------------------------------------------------------------------->
 
     <nav class="navbar navbar-inverse">
         <div class="container-fluid">
@@ -60,10 +57,6 @@
             </div>
         </div>
     </nav>
-
-    <!------------------------------------------------------------------------------------------------------------------------------------------
-	----------------------------------------------------------------- Body ---------------------------------------------------------------------
-	-------------------------------------------------------------------------------------------------------------------------------------------->
 
 
     <div class="container">
@@ -194,6 +187,12 @@
             var updates = {};
             updates['Teachers/' + user.uid + '/Quizzes/' + quizname + '/Question' + mycount++] = postData;
             return firebase.database().ref().update(updates);
+            var moredata = {
+              questioncount : "1"
+            };
+            var uptwo = {};
+            uptwo['Teachers/'+ user.uid + '/Quizzes/' + quizname]=moredata;
+            return firebase.database().ref().update(uptwo);
         },
 
         movingToNextQuestion: function() {
@@ -406,6 +405,14 @@
                 mcgamenameinput.value = null; // clear input field if value accepted
                 $("#mc-container2").show("slow");
                 $("#mc-container1").hide("slow");
+
+                var postData = {
+                  active : "false",
+                  name : quizname
+                }
+                var updates = {};
+                updates['Teachers/' + myuser.uid + '/Quizzes/' + quizname] = postData;
+                return firebase.database().ref().update(updates);
             } else {
                 mcerror.setAttribute('style', 'visibility: visible; color:red');
             }

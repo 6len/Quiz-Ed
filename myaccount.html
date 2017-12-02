@@ -19,41 +19,48 @@
 </head>
 
 <body>
-    <nav class="navbar navbar-inverse">
-        <div class="container-fluid">
-            <div class="navbar-header">
-                <img src="croissant.png" style="height:40px; margin-top: 3px; margin-bottom: 3px; margin-right:8px">
-                <a class="navbar-brand" style="color:white ; text-shadow: 1px 1px black; font-family:Palatino Linotype, sans-serif; font-size:26px" href="index.html">QuizEd</a>
-            </div>
-            <div id="keys" style="display:none">
-                <ul class="nav navbar-nav">
-                    <li class="active"><a href="index.html">Home</a></li>
-                    <li class="dropdown"><a class="dropdown-toggle" data-toggle="dropdown" href="classroom.html">Classes <span class="caret"></span></a>
-                        <ul class="dropdown-menu">
-                            <li><a href="classroom.html">MsMcGovernGeo</a></li>
-                            <li><a href="classroom.html">MsDalyMaths</a></li>
-                            <li><a href="classroom.html">MrNooneWoodwork</a></li>
-                        </ul>
+  <nav class="navbar navbar-inverse">
+    <div class="container-fluid">
+      <div class="navbar-header">
+        <img src="croissant.png" style="height:40px; margin-top: 3px; margin-bottom: 3px; margin-right:8px">
+        <a class="navbar-brand" style="color:white ; text-shadow: 1px 1px black; font-family:Palatino Linotype, sans-serif; font-size:26px" href="index.html">QuizEd</a>
+      </div>
+      <div id="keys" style="display:none">
+        <ul class="nav navbar-nav">
+          <li><a href="index.html">Home</a></li>
+          <li class="dropdown"><a class="dropdown-toggle" data-toggle="dropdown" href="classroom.html">Classes <span class="caret"></span></a>
+            <ul class="dropdown-menu">
+              <li><a href="classroom.html">MsMcGovernGeo</a></li>
+              <li><a href="classroom.html">MsDalyMaths</a></li>
+              <li><a href="classroom.html">MrNooneWoodwork</a></li>
+            </ul>
 
-                    </li>
-                    <li><a href="classroomcreation.html">Classroom Creation</a></li>
-                    <li><a href="quiz.html">Quiz Creation</a></li>
-                </ul>
-            </div>
-            <div id="logsign" style="display : none">
-                <ul class="nav navbar-nav navbar-right">
-                    <li><a href="#" onclick="signShow()"><span class="glyphicon glyphicon-user"></span> Sign Up</a></li>
-                    <li><a href="#" onclick="logShow()"><span class="glyphicon glyphicon-log-in"></span> Login</a></li>
-                </ul>
-            </div>
-            <div id="accountout" style="display : none">
-                <ul class="nav navbar-nav navbar-right">
-                    <li><a href="myaccount.html"><span class="glyphicon glyphicon-user"></span> My Account</a></li>
-                    <li><a href="#" onclick="logOut()"><span class="glyphicon glyphicon-log-in"></span> Logout</a></li>
-                </ul>
-            </div>
-        </div>
-    </nav>
+          </li>
+          <li><a href="classroomcreation.html">Classroom Creation</a></li>
+          <li><a href="quiz.html">Quiz Creation</a></li>
+          <li><a href="thequiz.html">Host a quiz</a></li>
+        </ul>
+      </div>
+      <div id = "stukeys" style="display:none">
+        <ul class="nav navbar-nav">
+          <li><a href="index.html">Home</a></li>
+        <li><a href="thequiz.html">Join a quiz</a></li>
+      </ul>
+      </div>
+      <div id="logsign" style="display : none">
+        <ul class="nav navbar-nav navbar-right">
+          <li><a href="#" onclick="signShow()"><span class="glyphicon glyphicon-user"></span> Sign Up</a></li>
+          <li><a href="#" onclick="logShow()"><span class="glyphicon glyphicon-log-in"></span> Login</a></li>
+        </ul>
+      </div>
+      <div id="accountout" style="display : none">
+        <ul class="nav navbar-nav navbar-right">
+          <li class = "active"><a href="myaccount.html"><span class="glyphicon glyphicon-user"></span> My Account</a></li>
+          <li><a href="#" onclick="logOut()"><span class="glyphicon glyphicon-log-in"></span> Logout</a></li>
+        </ul>
+      </div>
+    </div>
+  </nav>
 
 
 
@@ -68,7 +75,7 @@
                     <!-- Name -->
                     <h3 id="name-header">Nobody</h3>
                     <!-- Designation -->
-                    <h4>Teacher Account</h4>
+                    <h4 id="type-header">Some sort of account</h4>
                 </div>
                 <!-- Image -->
                 <div class="ui-image">
@@ -104,8 +111,8 @@
                                     <h5>Enter Teacher Code Below</h5>
                                     <label>Teacher Code:</label><input type="text" class="teachercode" id="teachercode" placeholder="ggh545545">
                                     <input type="submit" value="Submit" class="btn">
-                                
-                                
+
+
                                 <input type="text" placeholder = "Image URL" id = "imageURL"><button type = "button" class="btn" onclick="imageChange()">Change Image</button>
 
                             </section>
@@ -170,6 +177,9 @@
             if (data) {
                 $("#keys").show();
             }
+            else{
+              $("#stukeys").show();
+            }
         });
     }
 
@@ -183,6 +193,12 @@
 
         var image = document.getElementById("profileimage");
         image.src = myuser.photoURL;
+
+        var type = document.getElementById("type-header");
+        firebase.database().ref("Teachers/" + myuser.uid).once("value", snapshot => {
+            const data = snapshot.val();
+            if (data) {type.innerHTML = "Teacher account"} else {type.innerHTML = "Student account"}
+        });
 
 
     }
@@ -205,7 +221,7 @@
             alert("Invalid email or need to re-log");
         });
     }
-    
+
     function imageChange() {
         var image = $("#imageURL").val();
         myuser.updateProfile({
