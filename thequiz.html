@@ -37,14 +37,14 @@
           </li>
           <li><a href="classroomcreation.html">Classroom Creation</a></li>
           <li><a href="quiz.html">Quiz Creation</a></li>
-          <li class = "active"><a href="thequiz.html">Host a quiz</a></li>
+          <li class="active"><a href="thequiz.html">Host a quiz</a></li>
         </ul>
       </div>
-      <div id = "stukeys" style="display:none">
+      <div id="stukeys" style="display:none">
         <ul class="nav navbar-nav">
           <li><a href="index.html">Home</a></li>
-        <li class = "active"><a href="thequiz.html">Join a quiz</a></li>
-      </ul>
+          <li class="active"><a href="thequiz.html">Join a quiz</a></li>
+        </ul>
       </div>
       <div id="logsign" style="display : none">
         <ul class="nav navbar-nav navbar-right">
@@ -84,6 +84,7 @@
     var database = firebase.database();
     var quizname;
     var myuser;
+    var thetime;
 
 
     firebase.auth().onAuthStateChanged(function(user) {
@@ -127,29 +128,52 @@
           $("#stukeys").show();
           var thefield = document.getElementById("thefield");
           thefield.innerHTML = "<input id='quizcode' type = 'text' placeholder = 'quiz code' </input> <button id = 'qjoin' type = 'btn btn-primary' onclick='joining()'>Join Quiz</button>";
-      }
-      $("#thefield").append("</ul>");
-    });
-  }
+        }
+        $("#thefield").append("</ul>");
+      });
+    }
 
     function logOut() {
       firebase.auth().signOut();
     }
 
     function startquiz(thequizname) {
-      console.log(thequizname);
+      firebase.database().ref('Teachers/' + myuser.uid + '/Quizzes/' + thequizname + '/').update({
+        starttime: firebase.database.ServerValue.TIMESTAMP,
+        active: true
+      });
+      firebase.database().ref('Teachers/' + myuser.uid + '/Quizzes/' + thequizname + '/qnumber').once('value').then(function(data) {
+        waittime = 1000+(15000*data.val());
+        setTimeout(function(){
+          firebase.database().ref('Teachers/' + myuser.uid + '/Quizzes/' + thequizname + '/').update({
+            active: false
+          });
+        },waittime);
+      });
     }
 
-    function joining(){
-      var quizcode = $("#quizcode").val();
-      setInterval(oneSecondFunction,1000);
-    }
+      function joining() {
+        var quizcode = $("#quizcode").val();
+        setInterval(checkForQuiz, 1000);
+      }
 
-    function oneSecondFunction(){
-      var thefield = document.getElementById("thefield");
-      thefield.innerHTML = "<h1>Waiting for the quiz to start<h1>";
-    }
+      function checkForQuiz() {
+        var start = false;
+        if (!start) {
+          console.log(firebase.database.ServerValue.TIMESTAMP.val());
+          var thefield = document.getElementById("thefield");
+          thefield.innerHTML = "<h1>Waiting for the quiz to start<h1>";
+        }
+        firebase.database().ref('currentTime/').update({
+          time: firebase.database.ServerValue.TIMESTAMP
+        }).then(function(data) {
+          firebase.database().ref('currentTime/').once('value').then(function(data) {
 
+              time = data.val()['time'];
+              console.log('server time: ', time);
+            });
+        });
+      }
   </script>
 
 </html>
