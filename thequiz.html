@@ -85,6 +85,11 @@
     var quizname;
     var myuser;
     var thetime;
+    var quizcode;
+    var checkIt;
+    var start = false;
+    var quizsnap;
+    var qcount;
 
 
     firebase.auth().onAuthStateChanged(function(user) {
@@ -143,37 +148,72 @@
         active: true
       });
       firebase.database().ref('Teachers/' + myuser.uid + '/Quizzes/' + thequizname + '/qnumber').once('value').then(function(data) {
-        waittime = 1000+(15000*data.val());
-        setTimeout(function(){
+        waittime = 1000 + (15000 * data.val());
+        setTimeout(function() {
           firebase.database().ref('Teachers/' + myuser.uid + '/Quizzes/' + thequizname + '/').update({
             active: false
           });
-        },waittime);
+        }, waittime);
       });
     }
+    var quizcode = $("#quizcode").val();
 
-      function joining() {
-        var quizcode = $("#quizcode").val();
-        setInterval(checkForQuiz, 1000);
-      }
+    function joining() {
+      quizcode = $("#quizcode").val();
+      checkIt = setInterval(checkForQuiz, 1000);
+    }
 
-      function checkForQuiz() {
-        var start = false;
-        if (!start) {
-          console.log(firebase.database.ServerValue.TIMESTAMP.val());
-          var thefield = document.getElementById("thefield");
-          thefield.innerHTML = "<h1>Waiting for the quiz to start<h1>";
-        }
-        firebase.database().ref('currentTime/').update({
-          time: firebase.database.ServerValue.TIMESTAMP
-        }).then(function(data) {
-          firebase.database().ref('currentTime/').once('value').then(function(data) {
+    function checkForQuiz() {
+      var activequiz;
+      firebase.database().ref('currentTime/').update({
+        time: firebase.database.ServerValue.TIMESTAMP
+      }).then(function(data) {
+        firebase.database().ref('currentTime/').once('value').then(function(data) {
 
-              time = data.val()['time'];
-              console.log('server time: ', time);
-            });
+          time = data.val()['time'];
+          thetime = time;
         });
+      });
+      if (!start) {
+        firebase.database().ref('Teachers').once('value').then(function(snapshot) {
+          snapshot.forEach(function(snapChild) {
+            if (snapChild.child('Quizzes/' + quizcode).val() != null) {
+              if (snapChild.child('Quizzes/' + quizcode).val().active) {
+                console.log("Active");
+                quizsnap = snapChild.child('Quizzes/' + quizcode);
+                start = true;
+
+              }
+            }
+          });
+        });
+        var thefield = document.getElementById("thefield");
+        thefield.innerHTML = "<h1>Waiting for the quiz to start<h1>";
+      } else {
+        var thefield = document.getElementById("thefield");
+        thefield.innerHTML = "<h1>Waiting for the quiz to start<h1>";
+        clearInterval(checkIt);
+        qcount = 1;
+        quizFill = setInterval(fillQuiz, 15000);
+        fillQuiz();
       }
+    }
+
+    function fillQuiz() {
+      var thefield = document.getElementById("thefield");
+      var qamount = quizsnap.child('qnumber').val();
+      if (qcount > qamount) {
+        thefield.innerHTML = "<h1> The Quiz Has Ended <h1>";
+        clearInterval(quizFill);
+      } else {
+        console.log(quizsnap.val());
+        console.log(thetime);
+        var currentq = quizsnap.child('Question' + qcount).val()
+        console.log(qamount);
+        thefield.innerHTML = "<h1>" + currentq.question + "<h1><br><h2>" + currentq.correct + "<h2>";
+        qcount++;
+      }
+    }
   </script>
 
 </html>

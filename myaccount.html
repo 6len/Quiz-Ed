@@ -113,8 +113,9 @@
                                     <input type="submit" value="Submit" class="btn">
 
 
-                                <input type="text" placeholder = "Image URL" id = "imageURL"><button type = "button" class="btn" onclick="imageChange()">Change Image</button>
+                                <input type="text" placeholder = "Image URL" id = "imageURL"><button type = "button" class="btn" onclick="imageChange()">Change Image</button><br>
 
+                                <input type="text" placeholder = "Your Name" id = "realName"><button type = "button" class="btn" onclick="nameChange()">Change Name</button>
                             </section>
                         </center>
 
@@ -189,10 +190,14 @@
 
     function fillpage() {
         var name = document.getElementById("name-header");
+        if(myuser.displayName != null){
         name.innerHTML = myuser.displayName;
+      }
 
         var image = document.getElementById("profileimage");
+        if(myuser.photoURL != null){
         image.src = myuser.photoURL;
+        }
 
         var type = document.getElementById("type-header");
         firebase.database().ref("Teachers/" + myuser.uid).once("value", snapshot => {
@@ -229,6 +234,15 @@
         }).then(function(){
             fillpage();
         });
+    }
+
+    function nameChange() {
+      var name = $("#realName").val();
+      myuser.updateProfile({
+        displayName: name
+      }).then(function(){
+        fillpage();
+      });
     }
 
 </script>
