@@ -30,7 +30,7 @@
       </div>
       <div id="keys" style="display:none">
         <ul class="nav navbar-nav">
-          <li class="active"><a href="index.html">Home</a></li>
+          <li><a href="index.html">Home</a></li>
           <li class="dropdown"><a class="dropdown-toggle" data-toggle="dropdown" href="classroom.html">Classes <span class="caret"></span></a>
             <ul class="dropdown-menu">
               <li><a href="classroom.html">MsMcGovernGeo</a></li>
@@ -40,7 +40,14 @@
 
           </li>
           <li><a href="classroomcreation.html">Classroom Creation</a></li>
-          <li><a href="quiz.html">Quiz Creation</a></li>
+          <li class = "active"><a href="quiz.html">Quiz Creation</a></li>
+          <li><a href="thequiz.html">Host a quiz</a></li>
+        </ul>
+      </div>
+      <div id="stukeys" style="display:none">
+        <ul class="nav navbar-nav">
+          <li><a href="index.html">Home</a></li>
+          <li class="active"><a href="thequiz.html">Join a quiz</a></li>
         </ul>
       </div>
       <div id="logsign" style="display : none">
@@ -404,7 +411,7 @@
         $("#mc-container1").hide("slow");
 
         var postData = {
-          active: "false",
+          active: false,
           name: quizname
         }
         var updates = {};

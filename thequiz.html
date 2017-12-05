@@ -8,7 +8,8 @@
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
   <script src="bootstrap/3.3.7/js/bootstrap.min.js"></script>
   <script src="https://www.gstatic.com/firebasejs/4.5.2/firebase.js"></script>
-
+  <script type="text/javascript" src="TimeCircles.js"></script>
+  <link href="TimeCircles.css" rel="stylesheet">
   <link rel="icon" type="image/png" href="croissant.png">
 
   <link rel="stylesheet" type="text/css" href="quiz.css">
@@ -80,6 +81,7 @@
     };
     firebase.initializeApp(config);
 
+    //----------------Global Variables for functions ----------------
     var mycount = 1;
     var database = firebase.database();
     var quizname;
@@ -90,12 +92,23 @@
     var start = false;
     var quizsnap;
     var qcount;
+    var questions;
+    var thetime;
+    var quizFill;
+    var rightAnswer = 0;
+    var currentq;
+    var questionshuffle = [];
+    //---------------------------------------------------------------
 
 
+    //User Authentication
     firebase.auth().onAuthStateChanged(function(user) {
       if (user) {
+        //defines the user within the function
         user = user;
+        //give the global variable the user value
         myuser = user;
+        //checking if the email is verified- if not we log them out
         if (!user.emailVerified) {
           user.sendEmailVerification().then(function() {
             alert("A verification email has been sent to your address, please use it before you can log in");
@@ -104,18 +117,22 @@
 
           });
         } else {
+          //Changing the navbar state for a logged in account
           $("#logsign").hide();
           $("#accountout").show();
         }
       } else {
+        //Brings user back to home screen(for example if they logged out)
         $("#logsign").show();
         $("#accountout").hide();
         $("#keys").hide();
         window.location = "index.html";
       }
+      //Calls function to check if the user is a teacher account
       teachcheck();
     });
 
+    //fills the page with teachers administrative options, otherwise fills with students
     function teachcheck() {
       firebase.database().ref("Teachers/" + myuser.uid).once("value", snapshot => {
         const data = snapshot.val();
@@ -138,81 +155,188 @@
       });
     }
 
+    //logs the user out
     function logOut() {
       firebase.auth().signOut();
     }
 
+    //function to call the start of the quiz
     function startquiz(thequizname) {
       firebase.database().ref('Teachers/' + myuser.uid + '/Quizzes/' + thequizname + '/').update({
+        //sets the start time as a reference
         starttime: firebase.database.ServerValue.TIMESTAMP,
+        //state of the quiz set to active.
         active: true
       });
       firebase.database().ref('Teachers/' + myuser.uid + '/Quizzes/' + thequizname + '/qnumber').once('value').then(function(data) {
         waittime = 1000 + (15000 * data.val());
+        //stores the question information in a global variable
+        questions = data.val();
+        //sets a timeout to change the state of the quiz back to false
         setTimeout(function() {
           firebase.database().ref('Teachers/' + myuser.uid + '/Quizzes/' + thequizname + '/').update({
             active: false
           });
         }, waittime);
       });
+      //stores the quiz name in a global variable
+      quizname = thequizname;
+      //sets us on question 1
+      qcount = 1;
+
+      //calls the quiz to fill originally
+      teacherQuizFill();
+      //calls it every 15 seconds after this
+      thetime = setInterval(teacherQuizFill, 15000);
     }
-    var quizcode = $("#quizcode").val();
 
-    function joining() {
-      quizcode = $("#quizcode").val();
-      checkIt = setInterval(checkForQuiz, 1000);
-    }
-
-    function checkForQuiz() {
-      var activequiz;
-      firebase.database().ref('currentTime/').update({
-        time: firebase.database.ServerValue.TIMESTAMP
-      }).then(function(data) {
-        firebase.database().ref('currentTime/').once('value').then(function(data) {
-
-          time = data.val()['time'];
-          thetime = time;
-        });
-      });
-      if (!start) {
-        firebase.database().ref('Teachers').once('value').then(function(snapshot) {
-          snapshot.forEach(function(snapChild) {
-            if (snapChild.child('Quizzes/' + quizcode).val() != null) {
-              if (snapChild.child('Quizzes/' + quizcode).val().active) {
-                console.log("Active");
-                quizsnap = snapChild.child('Quizzes/' + quizcode);
-                start = true;
-
+    /* This function fills the quiz and increments what question it is on
+    each time it loops from set interval, if we get to the end of the quiz
+    it clears the Interval and calls a stop to it.*/
+    function teacherQuizFill() {
+      var thefield = document.getElementById("thefield");
+      if (qcount > questions) {
+        clearInterval(thetime);
+        $(".example").TimeCircles().end().fadeOut();
+        thefield.innerHTML = "<h1> The Quiz has ended. Start another? </h1>";
+        teachcheck();
+      } else {
+        firebase.database().ref('Teachers/' + myuser.uid + '/Quizzes/' + quizname + "/Question" + qcount + "/").once('value').then(function(data) {
+          console.log(data.val());
+          thefield.innerHTML = "<h1>" + data.val().question + "?<h1><br><div class='example' data-timer='15' style='height:250px'></div>";
+          //setup for the timer
+          $(".example").TimeCircles({
+            time: {
+              Days: {
+                show: false
+              },
+              Hours: {
+                show: false
+              },
+              Minutes: {
+                show: false
               }
             }
           });
         });
-        var thefield = document.getElementById("thefield");
-        thefield.innerHTML = "<h1>Waiting for the quiz to start<h1>";
-      } else {
-        var thefield = document.getElementById("thefield");
-        thefield.innerHTML = "<h1>Waiting for the quiz to start<h1>";
-        clearInterval(checkIt);
-        qcount = 1;
-        quizFill = setInterval(fillQuiz, 15000);
-        fillQuiz();
+        qcount++;
+        console.log(qcount);
+      }
+    }
+
+    var quizcode = $("#quizcode").val();
+
+    //function for when a student is joining a quiz
+    function joining() {
+      quizcode = $("#quizcode").val();
+      checkIt = setInterval(checkForQuiz, 100);
+    }
+    //function to check if the quiz is active
+    function checkForQuiz() {
+      var activequiz;
+      firebase.database().ref('currentTime/').update({
+        //stores the current timestamp
+        time: firebase.database.ServerValue.TIMESTAMP
+      }).then(function(data) {
+        firebase.database().ref('currentTime/').once('value').then(function(data) {
+          //gets the server timestamp
+          time = data.val()['time'];
+          console.log(data.val())
+          thetime = time;
+        });
+      });
+      //ensures we have a timestamp before we continue
+      if (thetime != null) {
+        if (!start) {
+          firebase.database().ref('Teachers').once('value').then(function(snapshot) {
+            snapshot.forEach(function(snapChild) {
+              if (snapChild.child('Quizzes/' + quizcode).val() != null) {
+                if (snapChild.child('Quizzes/' + quizcode).val().active) {
+                  //gets the information we need to provide the user with the quiz
+                  console.log("Active");
+                  quizsnap = snapChild.child('Quizzes/' + quizcode);
+                  start = true;
+
+                }
+              }
+            });
+          });
+          //fills the page with the default waiting for quiz message
+          var thefield = document.getElementById("thefield");
+          thefield.innerHTML = "<h1>Waiting for the quiz to start<h1>";
+        } else {
+          var thefield = document.getElementById("thefield");
+          thefield.innerHTML = "<h1>Waiting for the quiz to start<h1>";
+          //clears the quiz checking interval if the quiz is active
+          clearInterval(checkIt);
+          //sets the quiz start time
+          quiztime = quizsnap.val().starttime;
+          console.log(thetime);
+          console.log(quiztime);
+          console.log((thetime - quiztime));
+          //checks which question we are on according to quiz time
+          qcount = ~~((thetime - quiztime) / 15000);
+          qcount++;
+          //calls fill quiz
+          fillQuiz();
+          //calls fill quiz every 15 seconds thereafter
+          setTimeout(function() {
+            console.log(qcount);
+            quizFill = setInterval(fillQuiz, 15000);
+            fillQuiz();
+            console.log((thetime - quiztime) % 15000)
+          }, (15000 - ((thetime - quiztime) % 15000)));
+        }
       }
     }
 
     function fillQuiz() {
       var thefield = document.getElementById("thefield");
       var qamount = quizsnap.child('qnumber').val();
+      //checks if we're at the end of the quiz
       if (qcount > qamount) {
-        thefield.innerHTML = "<h1> The Quiz Has Ended <h1>";
+        //fills the screen with the quiz end message
+        thefield.innerHTML = "<h1> The Quiz Has Ended </h1><br><h1>You scored "+rightAnswer+"/"+qamount+"</h1>";
+
         clearInterval(quizFill);
       } else {
+        //fills the screen with the question information
         console.log(quizsnap.val());
         console.log(thetime);
-        var currentq = quizsnap.child('Question' + qcount).val()
+        currentq = quizsnap.child('Question' + qcount).val();
         console.log(qamount);
-        thefield.innerHTML = "<h1>" + currentq.question + "<h1><br><h2>" + currentq.correct + "<h2>";
+        questionshuffle = [currentq.correct, currentq.wrongOne, currentq.wrongTwo, currentq.wrongThree];
+        var i = 0,
+          j = 0,
+          temp = null;
+        for (var a = 0; a < questionshuffle.length * 2; a++) {
+          j = Math.floor(Math.random() * 4);
+          i = Math.floor(Math.random() * 4);
+          console.log(i + " " + j);
+          temp = questionshuffle[i];
+          questionshuffle[i] = questionshuffle[j];
+          questionshuffle[j] = temp;
+        }
+        thefield.innerHTML = "<h1>" + currentq.question + "<h1><br>";
+        thefield.innerHTML += "<div id = 'answer1' class = 'centerWrap'><button type = 'button' class = 'quizButton' onclick = 'checkAnswer(0)'>" + questionshuffle[0] + "</button></div><br>";
+        thefield.innerHTML += "<div id = 'answer2' class = 'centerWrap'><button type = 'button' class = 'quizButton' onclick = 'checkAnswer(1)'>" + questionshuffle[1] + "</button></div><br>";
+        thefield.innerHTML += "<div id = 'answer3' class = 'centerWrap'><button type = 'button' class = 'quizButton' onclick = 'checkAnswer(2)'>" + questionshuffle[2] + "</button></div><br>";
+        thefield.innerHTML += "<div id = 'answer4' class = 'centerWrap'><button type = 'button' class = 'quizButton' onclick = 'checkAnswer(3)')>" + questionshuffle[3] + "</button></div><br>";
+        //thefield.append("<div class = 'centerWrap'> <button id = 'answer1' type = 'button' class = 'quizButton' onclick = 'checkanswer('"+questionshuffle[0]+"')>"+questionshuffle[0]+"</button></div>");
+        //increments onto the next question
         qcount++;
       }
+    }
+
+    function checkAnswer(answer) {
+      console.log(questionshuffle[answer]+" "+currentq.correct);
+      (currentq.correct === questionshuffle[answer]) ? rightAnswer++ : false;
+      (currentq.correct === questionshuffle[answer]) ? thefield.innerHTML += "<h1> You were correct ! <h1>" : thefield.innerHTML += "<h1> You were incorrect :( <h1>";
+      $("#answer1").hide();
+      $("#answer2").hide();
+      $("#answer3").hide();
+      $("#answer4").hide();
+      console.log(rightAnswer);
     }
   </script>
 
