@@ -119,17 +119,21 @@
             </div>
             <div id="keys" style="display:none">
                 <ul class="nav navbar-nav">
-                    <li class="active"><a href="index.html">Home</a></li>
+                    <li><a href="index.html">Home</a></li>
                     <li class="dropdown"><a class="dropdown-toggle" data-toggle="dropdown" href="classroom.html">Classes <span class="caret"></span></a>
-                        <ul class="dropdown-menu">
-                            <li><a href="classroom.html">MsMcGovernGeo</a></li>
-                            <li><a href="classroom.html">MsDalyMaths</a></li>
-                            <li><a href="classroom.html">MrNooneWoodwork</a></li>
+                        <ul class="dropdown-menu" id="dropdown-menu">
                         </ul>
 
                     </li>
-                    <li><a href="classroomcreation.html">Classroom Creation</a></li>
+                    <li class="active"><a href="classroomcreation.html">Classroom Creation</a></li>
                     <li><a href="quiz.html">Quiz Creation</a></li>
+                    <li><a href="thequiz.html">Host a quiz</a></li>
+                </ul>
+            </div>
+            <div id="stukeys" style="display:none">
+                <ul class="nav navbar-nav">
+                    <li class="active"><a href="index.html">Home</a></li>
+                    <li><a href="thequiz.html">Join a quiz</a></li>
                 </ul>
             </div>
             <div id="logsign" style="display : none">
@@ -217,7 +221,7 @@
                             </div>
                             <div class="form-group">
                                 <div>
-                                    <button class="btn btn-custom " name="submit" type="submit">
+                                    <button class="btn btn-custom "  type="button" onclick = "createClass()">
         Submit
        </button>
                                 </div>
@@ -246,8 +250,13 @@
 </script>
 
 <script>
+    var cName;
+    var eKey;
+    var subject;
+    var email;
+    var sMessage;
     var database = firebase.database();
-
+    var myuser;
     firebase.auth().onAuthStateChanged(function(user) {
         if (user) {
             user = user;
@@ -277,7 +286,34 @@
                 window.location = "index.html";
             }
         });
+
+        var ref = firebase.database().ref("Teachers/" + user.uid + "/Classrooms");
+        ref.on("child_added", function(snapshot) {
+            var drpDwnMenu = document.getElementById("dropdown-menu");
+            var node = document.createElement("LI");
+            drpDwnMenu.appendChild(node);
+            var href = "classroom.html";
+            href += "?classroom=" + snapshot.key;
+            var newListItem = $(drpDwnMenu).append("<a href='" + href + "'>" + snapshot.key + "</a>");
+        });
     });
+
+    function createClass() {
+        cName = $("#classroomname").val();
+        eKey = $("#enrollmentkey").val();
+        subject = $("#subject").val();
+        email = $("#email").val();
+        sMessage = $("textarea").val();
+
+        if (cName != null && eKey != null) {
+            firebase.database().ref('Teachers/' + myuser.uid + "/Classrooms/" + cName + "/").update({
+                eKey: eKey,
+                subject: subject,
+                email: email,
+                message: sMessage
+            });
+        }
+    }
 
 </script>
 

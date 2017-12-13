@@ -4,17 +4,20 @@
 		<title>QuizEd Classroom</title>
 		<meta charset="utf-8">
 		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 		<link rel="stylesheet" href="bootstrap/3.3.7/css/bootstrap.min.css">
 		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 		<script src="bootstrap/3.3.7/js/bootstrap.min.js"></script>
 		
+		<!-- import datatables -->
+		<link rel="stylesheet" type="text/css" href="/DataTables/datatables.css">
 		<link rel="icon" type="image/png" href="croissant.png">
 	</head>
 
 <style>
 body{
-background-color: #2c3e50;
-min-height: 1000px;
+	background-color: #2c3e50;
+	min-height: 650px;
 }
 p{color: white;}
 h1{color: white;}
@@ -41,7 +44,7 @@ table { margin: auto; }
     /* The image used */
     background-image: url("iontas.jpg");
     /* Set a specific height */
-    min-height: 500px; 
+    min-height: 350px; 
 	width:100%;
 
     /* Create the parallax scrolling effect */
@@ -50,41 +53,21 @@ table { margin: auto; }
     background-repeat: no-repeat;
     background-size: cover;
 }
-.quizbtn {
-text-align: center;
-margin-left: calc(50% - 75px);
-width:150px;
-margin-top: auto;
-  background: #3498db;
-  background-image: -webkit-linear-gradient(top, #3498db, #186a9e);
-  background-image: -moz-linear-gradient(top, #3498db, #186a9e);
-  background-image: -ms-linear-gradient(top, #3498db, #186a9e);
-  background-image: -o-linear-gradient(top, #3498db, #186a9e);
-  background-image: linear-gradient(to bottom, #3498db, #186a9e);
-  -webkit-border-radius: 28;
-  -moz-border-radius: 28;
-  border-radius: 28px;
-  font-family: Arial;
-  color: #ffffff;
-  font-size: 20px;
-  padding: 10px 20px 10px 20px;
-  text-decoration: none;
+
+#resultsTable{
+	width: 100%;
+	border-radius:10px
 }
 
-.quizbtn:hover {
-  background: #3cb0fd;
-  background-image: -webkit-linear-gradient(top, #3cb0fd, #3498db);
-  background-image: -moz-linear-gradient(top, #3cb0fd, #3498db);
-  background-image: -ms-linear-gradient(top, #3cb0fd, #3498db);
-  background-image: -o-linear-gradient(top, #3cb0fd, #3498db);
-  background-image: linear-gradient(to bottom, #3cb0fd, #3498db);
-  text-decoration: none;
+th{
+	background-color: #c266ff;
+	text-align: center;
+	font-family: Arial;
+    color: white;
 }
 
-.quizbuttonContainer{
-width:100%;
-height: 100px;
-margin:auto;
+.gradeCell{
+	text-align: center;
 }
 </style>
 <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.4/angular.min.js"></script>
@@ -95,97 +78,201 @@ margin:auto;
 	-----------------------------------------------------------Navigation bar-------------------------------------------------------------------
 	-------------------------------------------------------------------------------------------------------------------------------------------->
 
-<nav class="navbar navbar-inverse">
-  <div class="container-fluid">
-    <div class="navbar-header">
-	<img src="croissant.png" style="height:40px; margin-top: 3px; margin-bottom: 3px; margin-right:8px">
-      <a class="navbar-brand" style="color:white ; text-shadow: 1px 1px black; font-family:Palatino Linotype, sans-serif; font-size:26px" href="index.html">QuizEd</a>
-    </div>
-    <ul class="nav navbar-nav">
-      <li class="active"><a href="index.html">Home</a></li>
-      <li class="dropdown"><a class="dropdown-toggle" data-toggle="dropdown" href="classroom.html">Classes <span class="caret"></span></a>
-        <ul class="dropdown-menu">
-          <li><a href="classroom.html">MsMcGovernGeo</a></li>
-          <li><a href="classroom.html">MsDalyMaths</a></li>
-          <li><a href="classroom.html">MrNooneWoodwork</a></li>
+ <nav class="navbar navbar-inverse">
+    <div class="container-fluid">
+      <div class="navbar-header">
+        <img src="croissant.png" style="height:40px; margin-top: 3px; margin-bottom: 3px; margin-right:8px">
+        <a class="navbar-brand" style="color:white ; text-shadow: 1px 1px black; font-family:Palatino Linotype, sans-serif; font-size:26px" href="index.html">QuizEd</a>
+      </div>
+      <div id="keys" style="display:none">
+        <ul class="nav navbar-nav">
+          <li><a href="index.html">Home</a></li>
+          <li class="dropdown active"><a class="dropdown-toggle" data-toggle="dropdown" href="classroom.html">Classes <span class="caret"></span></a>
+            <ul class="dropdown-menu" id="dropdown-menu">
+            </ul>
+
+          </li>
+          <li><a href="classroomcreation.html">Classroom Creation</a></li>
+          <li><a href="quiz.html">Quiz Creation</a></li>
+          <li><a href="thequiz.html">Host a quiz</a></li>
         </ul>
-      </li>
-      <li><a href="classroomcreation.html">Classroom Creation</a></li>
-	  <li><a href="quiz.html">Quiz Creation</a></li>
-    </ul>
-    <ul class="nav navbar-nav navbar-right">
-      <li><a href="index.html"><span class="glyphicon glyphicon-user"></span> Sign Up</a></li>
-      <li><a href="index.html"><span class="glyphicon glyphicon-log-in"></span> Login</a></li>
-    </ul>
-  </div>
-</nav>
+      </div>
+      <div id = "stukeys" style="display:none">
+        <ul class="nav navbar-nav">
+          <li class = "active"><a href="index.html">Home</a></li>
+        <li><a href="thequiz.html">Join a quiz</a></li>
+      </ul>
+      </div>
+      <div id="logsign" style="display : none">
+        <ul class="nav navbar-nav navbar-right">
+          <li><a href="#" onclick="signShow()"><span class="glyphicon glyphicon-user"></span> Sign Up</a></li>
+          <li><a href="#" onclick="logShow()"><span class="glyphicon glyphicon-log-in"></span> Login</a></li>
+        </ul>
+      </div>
+      <div id="accountout" style="display : none">
+        <ul class="nav navbar-nav navbar-right">
+          <li><a href="myaccount.html"><span class="glyphicon glyphicon-user"></span> My Account</a></li>
+          <li><a href="#" onclick="logOut()"><span class="glyphicon glyphicon-log-in"></span> Logout</a></li>
+        </ul>
+      </div>
+    </div>
+  </nav>
 
 	<!------------------------------------------------------------------------------------------------------------------------------------------
 	----------------------------------------------------------------- Body ---------------------------------------------------------------------
 	-------------------------------------------------------------------------------------------------------------------------------------------->
 
-<h1 align="center";>Classroom title</h1>
+
 <div class="tablecontainer">
-<p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.</p>
 </div>
 <div class="parallax"></div>
 
-<div class="quizbuttonContainer">
+<!--<div class="quizbuttonContainer">
 <br>
 	<button class="quizbtn" onclick="location.href='quiz.html'">Play Quiz</button>
-</div>
-
+</div> -->
+<h1 id="heading"></h1>
 <div class="tablecontainer">
 
-<h2 align="center";>Classroom Score Board</h1>
+	<h2 id="classTitle" align="center";></h1>
 
-<div ng-app="myApp" ng-controller="studentsCtrl"> 
 
-<table>
-  <tr>
-	<th>Class rank</th>
-    <th>Name</th>
-    <th>Average result</th>
-    <th>Last result</th>
-  </tr>
-<!--This is an example data row-->
-  <tr>
-    <td>1</td>
-    <td>aaaaa</td>
-    <td>100</td>
-	<td>100</td>
-  </tr>
-    <tr>
-    <td>2</td>
-    <td>aabbb</td>
-    <td>90</td>
-	<td>90</td>
-  </tr>
-    <tr>
-    <td>3</td>
-    <td>acccc</td>
-    <td>80</td>
-	<td>80</td>
-  </tr>
-  <!--This is the template for AngularJS populated rows-->
-  <tr ng-repeat="x in names | orderBy : 'AVGresult'">
-    <td>{{ $index + 1 }}</td>
-    <td>{{ x.Name }}</td>
-    <td>{{ x.AVGresult }}</td>
-	<td>{{ x.LastResult }}</td>
-  </tr>
-</table>
+	<table id="resultsTable">
+	</table>
 
 </div>
 </div>
 
-<script>
+<!--<script>
 var app = angular.module('myApp', []);
 app.controller('studentsCtrl', function($scope, $http) {
     $http.get("students.erb")
     .then(function (response) {$scope.names = response.data.records;});
+});-->
+<script src="https://www.gstatic.com/firebasejs/4.5.2/firebase.js"></script>
+<script>
+    // Initialize Firebase
+    var config = {
+        apiKey: "AIzaSyCC63aB9OixrMJsXmtFnnUSlVGDvNgRw30",
+        authDomain: "quiz-ed.firebaseapp.com",
+        databaseURL: "https://quiz-ed.firebaseio.com",
+        projectId: "quiz-ed",
+        storageBucket: "quiz-ed.appspot.com",
+        messagingSenderId: "690022150231"
+    };
+    firebase.initializeApp(config);
+</script>
+<script>
+var currentClass = "";
+//This takes the classroom name from the URL and sets it to the current Class
+$(document).ready(function() {
+	var curURL = window.location.href;
+	var counter = 0;
+	for(var i = 0; i < curURL.length; i++){
+		if(curURL.charAt(i) == '='){
+			counter++;
+			var newClass = curURL.substring(counter, curURL.length);
+			currentClass = newClass;
+			var changeHeading = document.getElementById("classTitle");
+			changeHeading.innerHTML = currentClass + " Quiz Results";
+		}else{
+			counter++;
+		}
+	}
 });
+var database = firebase.database();
+    firebase.auth().onAuthStateChanged(function(user) {
+        if (user) {
+            user = user;
+            myuser = user;
+            if (!user.emailVerified) {
+                user.sendEmailVerification().then(function() {
+                    alert("A verification email has been sent to your address, please use it before you can log in");
+                    firebase.auth().signOut();
+                }).catch(function(error) {
+
+                });
+            } else {
+                $("#logsign").hide();
+                $("#accountout").show();
+                $("#keys").show();
+            }
+        } else {
+            $("#logsign").show();
+            $("#accountout").hide();
+            $("#keys").hide();
+            window.location = "index.html";
+        }
+        firebase.database().ref("Teachers/" + user.uid).once("value", snapshot => {
+			const data = snapshot.val();
+            if (data) {} else {
+                alert("Oops, looks like you ended up somewhere you're not supposed to be!");
+                window.location = "index.html";
+            }
+        });
+		//------------------------------------------------------------------------------------
+		//           Now entering Adam's magical firebase table emporium
+		//------------------------------------------------------------------------------------
+		//find the names of the classrooms and add them to the drop down menu
+		var ref = firebase.database().ref("Teachers/" + user.uid + "/Classrooms");
+		ref.on("child_added", function(snapshot){
+			var drpDwnMenu = document.getElementById("dropdown-menu");
+			var node = document.createElement("LI");
+			drpDwnMenu.appendChild(node);
+			var href = "classroom.html";
+			href += "?classroom=" + snapshot.key;
+			var newListItem = $(drpDwnMenu).append("<a href='" + href + "'>" + snapshot.key + "</a>");
+		});
+
+		var tbl = document.getElementById("resultsTable");
+		//go to each student in the current class and retrieve their results for each taken quiz
+		var amountOfStudents = 0;
+		var amountOfQuizzes = 0;
+		var quizChecker = 0;
+		var curClassRef = firebase.database().ref("Teachers/" + user.uid + "/Classrooms/" + currentClass + "/StudentList/");
+		curClassRef.on("child_added", function(snapshot){
+			amountOfStudents++;
+			//add a new row for the new student
+			
+			var tempAmountOfQuizzes = 0;  
+			var curStudentRef = firebase.database().ref("Teachers/" + user.uid + "/Classrooms/" + currentClass + "/StudentList/" + snapshot.key + "/Grades");
+			currentStudent = snapshot.key;
+			var newRow = "<tr><td>" + currentStudent + "</td>";
+			curStudentRef.on("child_added", function(snapshot){
+				//Since not every student takes all the quizzes, count the amount of quizzes for each and record the biggest to make sure the table is the right size.
+				tempAmountOfQuizzes++;
+				var curGrade = snapshot.val().Grade;
+				var curPoints = snapshot.val().Points;
+				if(tempAmountOfQuizzes > amountOfQuizzes){
+					amountOfQuizzes = tempAmountOfQuizzes;
+					
+				}
+				var counter = 0;
+				var firstRow = "<tr><th>Name</th>";
+				if(quizChecker == 0){
+					for(var i = 0; i < snapshot.numChildren() + 1; i++){
+						counter++;
+						firstRow += "<th>Quiz" + counter + "</th>";
+					}
+					firstRow += "</tr>";
+					$(tbl).append(firstRow);
+				}
+				quizChecker = 1;
+				
+					newRow += '<td>' + curGrade + "</td>";
+				
+			});
+			newRow += "</tr>";
+			$(tbl).append(newRow);
+		});
+		//$(tbl).DataTable();
+		
+	
+    });
+	
+	
 </script>
 
 </body>
 </html>
+

@@ -35,10 +35,7 @@
         <ul class="nav navbar-nav">
           <li class="active"><a href="index.html">Home</a></li>
           <li class="dropdown"><a class="dropdown-toggle" data-toggle="dropdown" href="classroom.html">Classes <span class="caret"></span></a>
-            <ul class="dropdown-menu">
-              <li><a href="classroom.html">MsMcGovernGeo</a></li>
-              <li><a href="classroom.html">MsDalyMaths</a></li>
-              <li><a href="classroom.html">MrNooneWoodwork</a></li>
+            <ul class="dropdown-menu" id="dropdown-menu">
             </ul>
 
           </li>
@@ -70,9 +67,13 @@
 
     <header class="masthead">
         <div class="overlay">
-            <div class="container">
-                <h1 class="display-1 text-center">Quiz - Ed</h1>
-                <h4 class="text-center">We make questions easy</h4>
+            <div class="container" style="text-align:center">
+			  <div style="background-color:rgba(0,0,0,0.85); width:20%; margin:auto; min-width:230px; min-height:120px; border:solid #8080ff 5px;border-radius: 20px;">
+                <h1 class="logostyle">QuizEd
+				<img src="croissant.png" style="height:60px; margin-top: 3px; margin-bottom: 3px; margin-right:8px">
+				</h1>
+                <h4 class="text-center" style="color:white ; text-shadow: 1px 1px black;font-size:22px;" >We make questions easy</h4>
+			  </div>
             </div>
 
             <div id="forms">
@@ -92,6 +93,10 @@
 
                         <form id="SignInForm">
                             <div class="form-group">
+                                <label for="name">Display Name:</label>
+                                <input type="text" class="form-control" id="sign-name">
+                            </div>
+                            <div class="form-group">
                                 <label for="email">Email address:</label>
                                 <input type="email" class="form-control" id="sign-email">
                             </div>
@@ -102,10 +107,6 @@
                             <div class="form-group">
                                 <label for="pwd"> Confirm Password:</label>
                                 <input type="password" class="form-control" id="confirm-pwd">
-                            </div>
-                            <div class="form-group">
-                                <label for="pwd">Teacher Code:</label>
-                                <input type="password" class="form-control" id="teacher-code">
                             </div>
                             <div>
                                 <button type="button" class="btn btn-success" onclick="sign()">Sign Up</button>
@@ -259,6 +260,8 @@
 
     <script>
         var myuser;
+        var name; 
+        
         function signShow() {
             $("#ogBtns").hide();
             $("#LogInForm").fadeOut(500);
@@ -289,10 +292,11 @@
         }
 
         function sign() {
+            name = $("#sign-name").val();
             var email = $("#sign-email").val();
             var password = $("#sign-pwd").val();
             var cpassword = $("#confirm-pwd").val();
-            if (password == cpassword) {
+            if (password == cpassword && name != null) {
                 firebase.auth().createUserWithEmailAndPassword(email, password).catch(function(error) {
                     // Handle Errors here.
                     var errorCode = error.code;
@@ -312,6 +316,11 @@
             if (user) {
                 var user = user;
                 myuser = user;
+                if(name != ""){
+                        user.updateProfile({
+                            displayName: name
+                        });
+                    }
                 if (!user.emailVerified) {
                     user.sendEmailVerification().then(function() {
                         alert("A verification email has been sent to your address, please use it before you can log in");
@@ -334,11 +343,30 @@
                 $("#stukeys").hide();
             }
             teachcheck();
+			
+			var ref = firebase.database().ref("Teachers/" + user.uid + "/Classrooms");
+			ref.on("child_added", function(snapshot){
+				var drpDwnMenu = document.getElementById("dropdown-menu");
+				var node = document.createElement("LI");
+				drpDwnMenu.appendChild(node);
+				var href = "classroom.html";
+				href += "?classroom=" + snapshot.key;
+				var newListItem = $(drpDwnMenu).append("<a href='" + href + "'>" + snapshot.key + "</a>");
+			});
+            var ref = firebase.database().ref("Teachers/" + myuser.uid).once("value", snapshot => {
+                const data = snapshot.val();
+                if (data) {
+                    $("#keys").show();
+                }
+                else{
+                  $("#stukeys").show();
+                }
+            });
         });
 
 
         function teachcheck(){
-            firebase.database().ref("Teachers/" + myuser.uid).once("value", snapshot => {
+            var ref = firebase.database().ref("Teachers/" + myuser.uid).once("value", snapshot => {
                 const data = snapshot.val();
                 if (data) {
                     $("#keys").show();
@@ -348,7 +376,9 @@
                 }
             });
         }
+        
         function logOut() {
+            document.getElementById("sign-name").innerHTML = null;
             firebase.auth().signOut();
         }
 

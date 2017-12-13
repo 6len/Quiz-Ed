@@ -16,10 +16,12 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
     <link rel="stylesheet" href="myaccount.css">
+	<link href='https://fonts.googleapis.com/css?family=Spectral SC' rel='stylesheet'>
+	
 </head>
 
 <body>
-  <nav class="navbar navbar-inverse">
+  <nav class="navbar navbar-inverse" style="margin-bottom: 0px;">
     <div class="container-fluid">
       <div class="navbar-header">
         <img src="croissant.png" style="height:40px; margin-top: 3px; margin-bottom: 3px; margin-right:8px">
@@ -29,10 +31,7 @@
         <ul class="nav navbar-nav">
           <li><a href="index.html">Home</a></li>
           <li class="dropdown"><a class="dropdown-toggle" data-toggle="dropdown" href="classroom.html">Classes <span class="caret"></span></a>
-            <ul class="dropdown-menu">
-              <li><a href="classroom.html">MsMcGovernGeo</a></li>
-              <li><a href="classroom.html">MsDalyMaths</a></li>
-              <li><a href="classroom.html">MrNooneWoodwork</a></li>
+            <ul class="dropdown-menu" id="dropdown-menu">
             </ul>
 
           </li>
@@ -66,21 +65,23 @@
 
     <div class="">
         <!-- UI - X Starts -->
-        <div class="ui-67">
+        <div class="ui-67" style="width:100%">
 
             <!-- Head Starts -->
-            <div class="ui-head bg-lblue">
+            <div class="ui-head bg-lblue" style="background: url('http://hdwpro.com/wp-content/uploads/2017/05/3D-Back-to-School.jpg') no-repeat center center fixed;-webkit-background-size: cover; -moz-background-size: cover; background-size: fill; -o-background-size: cover;">
                 <!-- Details -->
                 <div class="ui-details">
                     <!-- Name -->
-                    <h3 id="name-header">Nobody</h3>
+                    <h3 style="font-size:50px" class="changedfont" id="name-header">Nobody</h3>
                     <!-- Designation -->
-                    <h4 id="type-header">Some sort of account</h4>
+                    <h4 class="changedfont" id="type-header">Some sort of account</h4>
                 </div>
                 <!-- Image -->
                 <div class="ui-image">
+				 <div style="height:120px;width;120px">
                     <!-- User Image -->
                     <img id="profileimage" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQhm0bo0KhH5PqP4wUjD4ZRA3fDy9JiLigMDL11TILWRGjwhHam3w" alt="Profile Picture" class="img-responsive" width="100" height="100">
+				 </div>
                 </div>
             </div>
             <!-- Head Ends -->
@@ -89,10 +90,10 @@
             <div class="ui-content">
 
                 <div class="row">
-
-                    <div class="col-sm-8 col-md-8 col-lg-8 col-lg-offset-2 acc-col" style="text-align:center; background-color: #ded1e7;" width="600x">
-                        <center>
-                            <section>
+<!--   class="row"  class="col-sm-8 col-md-8 col-lg-8 col-lg-offset-2 acc-col"    -->
+                    <div  style="text-align:center; background-color: #ded1e7;border:solid #8080ff 5px;border-radius:20px;width:70%;margin-top:80px;margin-left:15%; margin-bottom:20px; padding:2%" width="600x">
+                        
+                            <center>
                                 <h3>Contact Information</h3>
                                 <h5>Update Contact Information</h5>
                                 <div class="row">
@@ -102,32 +103,32 @@
                                     <button class="btn" onclick="emailchange()">Update Email</a>
                                 </div><br>
 
-
-
                                 <h3>Login Information</h3>
                                 <h5>Click the button to reset your password</h5>
                                 <button type="button" class="btn" onclick="resetpass()">Reset Password</button><br><br>
                                     <p id="errorid"></p>
-                                    <h5>Enter Teacher Code Below</h5>
-                                    <label>Teacher Code:</label><input type="text" class="teachercode" id="teachercode" placeholder="ggh545545">
-                                    <input type="submit" value="Submit" class="btn">
+									
+									
+									<br><h3>Personal settings:</h3>
+									<input type="text" class="teachercode" placeholder = "Image URL" id = "imageURL"><button type = "button" class="btn" onclick="imageChange()">Change Image</button>
+									<br>
+									<input type="text" class="teachercode" placeholder = "Your Name" id = "realName"><button type = "button" class="btn" onclick="nameChange()">Change Name</button>
+									<br><br><h3>Teacher Code:</h3>
+                                    <h5>Enter Teacher Code. To receive your teacher code, please contact the admiistrator and provide the proof of employment as a teacher.</h5>
+                                    <input type="text" class="teachercode" id="teachercode" placeholder="Teacher Code:"><button id="teachercodesub" type="button" class="btn" onclick = "teacherSub()">Submit code</button>
 
+                            </center>
+                        
 
-                                <input type="text" placeholder = "Image URL" id = "imageURL"><button type = "button" class="btn" onclick="imageChange()">Change Image</button><br>
-
-                                <input type="text" placeholder = "Your Name" id = "realName"><button type = "button" class="btn" onclick="nameChange()">Change Name</button>
-                            </section>
-                        </center>
-
-                        </div>
-                        <!-- col-8 -->
                     </div>
-
+                        <!-- col-8 -->
                 </div>
-                <!-- Content Ends -->
+
             </div>
-            <!-- UI - X Ends -->
+                <!-- Content Ends -->
         </div>
+            <!-- UI - X Ends -->
+    </div>
 
 </body>
 <script src="https://www.gstatic.com/firebasejs/4.5.2/firebase.js"></script>
@@ -170,6 +171,16 @@
         }
         fillpage();
         teachcheck();
+		
+		var ref = firebase.database().ref("Teachers/" + user.uid + "/Classrooms");
+		ref.on("child_added", function(snapshot){
+			var drpDwnMenu = document.getElementById("dropdown-menu");
+			var node = document.createElement("LI");
+			drpDwnMenu.appendChild(node);
+			var href = "classroom.html";
+			href += "?classroom=" + snapshot.key;
+			var newListItem = $(drpDwnMenu).append("<a href='" + href + "'>" + snapshot.key + "</a>");
+		});
     });
 
     function teachcheck() {
@@ -243,6 +254,22 @@
       }).then(function(){
         fillpage();
       });
+    }
+    
+    function teacherSub() {
+        firebase.database().ref("teachercode").once("value",snapshot => {
+            var code = $("#teachercode").val();
+            const data = snapshot.val();
+            if(code == data)
+                {
+                    var postData = {
+                        blank : "null"
+                    };
+                    var updates = {};
+                    updates['Teachers/'+myuser.uid] = postData;
+                    firebase.database().ref().update(updates);
+                }
+        });
     }
 
 </script>

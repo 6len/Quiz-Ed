@@ -1,19 +1,26 @@
 <html>
 
 <head>
-  <title>QuizEd Creator</title>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <link rel="stylesheet" href="bootstrap/3.3.7/css/bootstrap.min.css">
-  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-  <script src="bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <title>QuizEd Creator</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="bootstrap/3.3.7/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <script src="bootstrap/3.3.7/js/bootstrap.min.js"></script>
 
-  <link rel="icon" type="image/png" href="croissant.png">
+    <link rel="icon" type="image/png" href="croissant.png">
 
-  <link rel="stylesheet" type="text/css" href="quiz.css">
+    <link rel="stylesheet" type="text/css" href="quiz.css">
 
-  <script src="hangman.js"></script>
-  <link rel="stylesheet" type="text/css" href="hangmanStylesheet.css">
+    <script src="hangman.js"></script>
+    <link rel="stylesheet" type="text/css" href="hangmanStylesheet.css">
+
+    <!-- Latest compiled and minified CSS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.12.4/css/bootstrap-select.min.css">
+
+    <!-- Latest compiled and minified JavaScript -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.12.4/js/bootstrap-select.min.js"></script>
+
 
 
 </head>
@@ -22,418 +29,435 @@
 
 
 
-  <nav class="navbar navbar-inverse">
-    <div class="container-fluid">
-      <div class="navbar-header">
-        <img src="croissant.png" style="height:40px; margin-top: 3px; margin-bottom: 3px; margin-right:8px">
-        <a class="navbar-brand" style="color:white ; text-shadow: 1px 1px black; font-family:Palatino Linotype, sans-serif; font-size:26px" href="index.html">QuizEd</a>
-      </div>
-      <div id="keys" style="display:none">
-        <ul class="nav navbar-nav">
-          <li><a href="index.html">Home</a></li>
-          <li class="dropdown"><a class="dropdown-toggle" data-toggle="dropdown" href="classroom.html">Classes <span class="caret"></span></a>
-            <ul class="dropdown-menu">
-              <li><a href="classroom.html">MsMcGovernGeo</a></li>
-              <li><a href="classroom.html">MsDalyMaths</a></li>
-              <li><a href="classroom.html">MrNooneWoodwork</a></li>
-            </ul>
+    <nav class="navbar navbar-inverse">
+        <div class="container-fluid">
+            <div class="navbar-header">
+                <img src="croissant.png" style="height:40px; margin-top: 3px; margin-bottom: 3px; margin-right:8px">
+                <a class="navbar-brand" style="color:white ; text-shadow: 1px 1px black; font-family:Palatino Linotype, sans-serif; font-size:26px" href="index.html">QuizEd</a>
+            </div>
+            <div id="keys" style="display:none">
+                <ul class="nav navbar-nav">
+                    <li><a href="index.html">Home</a></li>
+                    <li class="dropdown"><a class="dropdown-toggle" data-toggle="dropdown" href="classroom.html">Classes <span class="caret"></span></a>
+                        <ul class="dropdown-menu" id="dropdown-menu">
+                        </ul>
 
-          </li>
-          <li><a href="classroomcreation.html">Classroom Creation</a></li>
-          <li class = "active"><a href="quiz.html">Quiz Creation</a></li>
-          <li><a href="thequiz.html">Host a quiz</a></li>
+                    </li>
+                    <li><a href="classroomcreation.html">Classroom Creation</a></li>
+                    <li class="active"><a href="quiz.html">Quiz Creation</a></li>
+                    <li><a href="thequiz.html">Host a quiz</a></li>
+                </ul>
+            </div>
+            <div id="stukeys" style="display:none">
+                <ul class="nav navbar-nav">
+                    <li><a href="index.html">Home</a></li>
+                    <li class="active"><a href="thequiz.html">Join a quiz</a></li>
+                </ul>
+            </div>
+            <div id="logsign" style="display : none">
+                <ul class="nav navbar-nav navbar-right">
+                    <li><a href="#" onclick="signShow()"><span class="glyphicon glyphicon-user"></span> Sign Up</a></li>
+                    <li><a href="#" onclick="logShow()"><span class="glyphicon glyphicon-log-in"></span> Login</a></li>
+                </ul>
+            </div>
+            <div id="accountout" style="display : none">
+                <ul class="nav navbar-nav navbar-right">
+                    <li><a href="myaccount.html"><span class="glyphicon glyphicon-user"></span> My Account</a></li>
+                    <li><a href="#" onclick="logOut()"><span class="glyphicon glyphicon-log-in"></span> Logout</a></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+
+    <div class="container">
+        <h1>Quiz Creation</h1>
+        <ul class="nav nav-tabs">
+            <li class="active"><a data-toggle="tab" onclick="mcclear();" href="#home">Multiple Choice</a></li>
+            <li><a data-toggle="tab" href="#menu1">Hangman</a></li>
         </ul>
-      </div>
-      <div id="stukeys" style="display:none">
-        <ul class="nav navbar-nav">
-          <li><a href="index.html">Home</a></li>
-          <li class="active"><a href="thequiz.html">Join a quiz</a></li>
-        </ul>
-      </div>
-      <div id="logsign" style="display : none">
-        <ul class="nav navbar-nav navbar-right">
-          <li><a href="#" onclick="signShow()"><span class="glyphicon glyphicon-user"></span> Sign Up</a></li>
-          <li><a href="#" onclick="logShow()"><span class="glyphicon glyphicon-log-in"></span> Login</a></li>
-        </ul>
-      </div>
-      <div id="accountout" style="display : none">
-        <ul class="nav navbar-nav navbar-right">
-          <li><a href="myaccount.html"><span class="glyphicon glyphicon-user"></span> My Account</a></li>
-          <li><a href="#" onclick="logOut()"><span class="glyphicon glyphicon-log-in"></span> Logout</a></li>
-        </ul>
-      </div>
+        <div class="tab-content">
+            <div id="home" class="tab-pane fade in active">
+                <div id="mc-container1" class="mc-containers">
+                    <br><br>
+                    <p>Please name your new quiz and then hit the submission button.</p>
+                    <select class="selectpicker" id="selclass">
+            </select>
+                    <input id="gameNameInput" type="text" placeholder="Quiz name">
+                    <button onclick="creategames()">Add Quiz</button>
+                    <p id="mcerror" style="color:red; visibility:hidden;">* Error, incorrect input.</p>
+                </div>
+
+
+                <div id="mc-container2" class="mc-containers" style="display:none">
+                    <div class="addQuestions">
+                        <input id="questionInput" type="text" placeholder="Type Your Question">
+                        <input id="correctInput" type="text" placeholder="Correct Answer">
+                        <input id="wrongOneInput" type="text" placeholder="Wrong Answer 1">
+                        <input id="wrongTwoInput" type="text" placeholder="Wrong Answer 2">
+                        <input id="wrongThreeInput" type="text" placeholder="Wrong Answer 3">
+
+                        <button onclick="handlers.addQuestion()">Add Question</button>
+                    </div>
+
+                    <div class="info">
+                        <li id="NumberQuestionsInQuiz">You currently have 0 questions added to your quiz</li>
+                        <button onclick="view.displayQuestions()" id="startQuiz">Start Quiz</button>
+                    </div>
+                    <p class="answersCorrect"></p>
+                    <div class="questionsWrapper"></div>
+                </div>
+            </div>
+
+            <div id="menu1" class="tab-pane fade" style="color:white">
+
+                <div id="hangman-creator">
+                    <br>
+                    <p style="text-align:left;">Use the fields below to add a word to the new hangman game. You can then test the new game and when you are finished adding new questions, name your game and hit the "Submit Game" button at the bottom of the page.</p>
+                    <input id="wordInput" type="password" placeholder="Type Your Word">
+                    <input id="hintInput" type="text" placeholder="Type Your Hint">
+                    <button onclick="addWord()">Add Question</button>
+                    <p id="hangmanAddError" style="color:red; visibility:hidden;">* Error, incorrect input.</p>
+                </div>
+
+                <h1>Hangman</h1>
+
+                <div class="wrapper" style="text-align: center">
+                    <p>Use the alphabet below to guess the word, or click hint to get a clue. </p>
+                </div>
+                <div class="wrapper" style="text-align: center; margin-bottom:50px">
+                    <div id="buttons">
+                    </div>
+                    <br>
+                    <p id="catagoryName" style=" text-align: center; padding-top:30px; margin:auto"></p>
+                    <div id="hold" style="text-align: center; padding-top:30px">
+                    </div>
+                    <p id="mylives"></p>
+                    <p id="clue" style="visibility:hidden">Clue -</p>
+                    <canvas id="stickman">Your Browser does NOT support HTML5 Canvas tag</canvas>
+                    <div class="hm_btn_container">
+                        <button id="hint">Hint</button>
+                        <button id="reset">Play again</button>
+                    </div>
+                </div>
+
+
+            </div>
+        </div>
     </div>
-  </nav>
-
-
-  <div class="container">
-    <h1>Quiz Creation</h1>
-    <ul class="nav nav-tabs">
-      <li class="active"><a data-toggle="tab" onclick="mcclear();" href="#home">Multiple Choice</a></li>
-      <li><a data-toggle="tab" href="#menu1">Hangman</a></li>
-    </ul>
-    <div class="tab-content">
-      <div id="home" class="tab-pane fade in active">
-        <div id="mc-container1" class="mc-containers">
-          <br><br>
-          <p>Please name your new quiz and then hit the submission button.</p>
-          <input id="gameNameInput" type="text" placeholder="Quiz name">
-          <button onclick="creategames()">Add Quiz</button>
-          <p id="mcerror" style="color:red; visibility:hidden;">* Error, incorrect input.</p>
+    <div id="myModal" class="modal">
+        <!-- Modal content -->
+        <div class="modal-content">
+            <div id="title"><span class="firstrow">You Win!</span></div>
         </div>
-
-
-        <div id="mc-container2" class="mc-containers" style="display:none">
-          <div class="addQuestions">
-            <input id="questionInput" type="text" placeholder="Type Your Question">
-            <input id="correctInput" type="text" placeholder="Correct Answer">
-            <input id="wrongOneInput" type="text" placeholder="Wrong Answer 1">
-            <input id="wrongTwoInput" type="text" placeholder="Wrong Answer 2">
-            <input id="wrongThreeInput" type="text" placeholder="Wrong Answer 3">
-
-            <button onclick="handlers.addQuestion()">Add Question</button>
-          </div>
-
-          <div class="info">
-            <li id="NumberQuestionsInQuiz">You currently have 0 questions added to your quiz</li>
-            <button onclick="view.displayQuestions()" id="startQuiz">Start Quiz</button>
-          </div>
-          <p class="answersCorrect"></p>
-          <div class="questionsWrapper"></div>
-        </div>
-      </div>
-
-      <div id="menu1" class="tab-pane fade" style="color:white">
-
-        <div id="hangman-creator">
-          <br>
-          <p style="text-align:left;">Use the fields below to add a word to the new hangman game. You can then test the new game and when you are finished adding new questions, name your game and hit the "Submit Game" button at the bottom of the page.</p>
-          <input id="wordInput" type="text" placeholder="Type Your Word">
-          <input id="hintInput" type="text" placeholder="Type Your Hint">
-          <button onclick="addWord()">Add Question</button>
-          <p id="hangmanAddError" style="color:red; visibility:hidden;">* Error, incorrect input.</p>
-        </div>
-
-        <h1>Hangman</h1>
-
-        <div class="wrapper" style="text-align: center">
-          <p>Use the alphabet below to guess the word, or click hint to get a clue. </p>
-        </div>
-        <div class="wrapper" style="text-align: center; margin-bottom:50px">
-          <div id="buttons">
-          </div>
-          <br>
-          <p id="catagoryName" style=" text-align: center; padding-top:30px; margin:auto"></p>
-          <div id="hold" style="text-align: center; padding-top:30px">
-          </div>
-          <p id="mylives"></p>
-          <p id="clue" style="visibility:hidden">Clue -</p>
-          <canvas id="stickman">Your Browser does NOT support HTML5 Canvas tag</canvas>
-          <div class="hm_btn_container">
-            <button id="hint">Hint</button>
-            <button id="reset">Play again</button>
-          </div>
-        </div>
-
-
-      </div>
     </div>
-  </div>
-  <div id="myModal" class="modal">
-    <!-- Modal content -->
-    <div class="modal-content">
-      <div id="title"><span class="firstrow">You Win!</span></div>
-    </div>
-  </div>
 
 </body>
 
 <script src="https://www.gstatic.com/firebasejs/4.5.2/firebase.js"></script>
 <script>
-  // Initialize Firebase
-  var config = {
-    apiKey: "AIzaSyCC63aB9OixrMJsXmtFnnUSlVGDvNgRw30",
-    authDomain: "quiz-ed.firebaseapp.com",
-    databaseURL: "https://quiz-ed.firebaseio.com",
-    projectId: "quiz-ed",
-    storageBucket: "quiz-ed.appspot.com",
-    messagingSenderId: "690022150231"
-  };
-  firebase.initializeApp(config);
+    // Initialize Firebase
+    var config = {
+        apiKey: "AIzaSyCC63aB9OixrMJsXmtFnnUSlVGDvNgRw30",
+        authDomain: "quiz-ed.firebaseapp.com",
+        databaseURL: "https://quiz-ed.firebaseio.com",
+        projectId: "quiz-ed",
+        storageBucket: "quiz-ed.appspot.com",
+        messagingSenderId: "690022150231"
+    };
+    firebase.initializeApp(config);
+
 </script>
 <script>
-  var mycount = 1;
-  var database = firebase.database();
-  var quizname;
-  var myuser;
+    var mycount = 1;
+    var database = firebase.database();
+    var quizname;
+    var myuser;
 
-  var quiz = {
-    //Array for questions
-    questions: [],
+    var quiz = {
+        //Array for questions
+        questions: [],
 
-    //Add questions as objects to array
-    addQuestion: function(question, correct, wrongOne, wrongTwo, wrongThree) {
-      this.questions.push({
-        question: question,
-        correct: correct,
-        wrongOne: wrongOne,
-        wrongTwo: wrongTwo,
-        wrongThree: wrongThree
-      });
-      //upadate number of questions each time you add one
-      view.displayNumberOfQuestions();
-      var user = firebase.auth().currentUser;
-      var postData = {
-        question: question,
-        correct: correct,
-        wrongOne: wrongOne,
-        wrongTwo: wrongTwo,
-        wrongThree: wrongThree
-      };
-      var updates = {};
-      updates['Teachers/' + user.uid + '/Quizzes/' + quizname + '/Question' + mycount] = postData;
-      firebase.database().ref().update(updates);
-      firebase.database().ref('Teachers/' + user.uid + '/Quizzes/' + quizname + '/').update({
-        qnumber: mycount
-      });
-      mycount++;
-    },
+        //Add questions as objects to array
+        addQuestion: function(question, correct, wrongOne, wrongTwo, wrongThree) {
+            this.questions.push({
+                question: question,
+                correct: correct,
+                wrongOne: wrongOne,
+                wrongTwo: wrongTwo,
+                wrongThree: wrongThree
+            });
+            //upadate number of questions each time you add one
+            view.displayNumberOfQuestions();
+            var user = firebase.auth().currentUser;
+            var postData = {
+                question: question,
+                correct: correct,
+                wrongOne: wrongOne,
+                wrongTwo: wrongTwo,
+                wrongThree: wrongThree
+            };
 
-    movingToNextQuestion: function() {
-      //find all next buttons and add event lisener to them
-      var nextButton = document.querySelectorAll(".nextButton");
-      for (i = 0; i < nextButton.length; i++) {
-        nextButton[i].addEventListener("click", function(event) {
-          //Find the element that was clicked
-          var elementClicked = event.target;
-          //If it was a next button then remove the is-active class from it parent
-          if (elementClicked.className === "nextButton") {
-            elementClicked.parentNode.classList.remove("is-active");
-            //If there isnt a next sibling then reshow the options to add questions and the info div
-            if (elementClicked.parentNode.nextElementSibling === null) {
-              var showAdd = document.querySelector(".addQuestions");
-              var showInfo = document.querySelector(".info");
-              showAdd.style.display = "block";
-              showInfo.style.display = "block";
-            } else {
-              //If there is a next siblng then add the is-active class to it
-              elementClicked.parentNode.nextElementSibling.classList.add("is-active");
-            }
-          }
-        });
-      };
-    }
-  };
-  var handlers = {
-    //This runs when you click add question button
-    addQuestion: function() {
-      //Get each of the inputs by id
-      var questionInput = document.getElementById("questionInput");
-      var correctInput = document.getElementById("correctInput");
-      var wrongOneInput = document.getElementById("wrongOneInput");
-      var wrongTwoInput = document.getElementById("wrongTwoInput");
-      var wrongThreeInput = document.getElementById("wrongThreeInput");
-      //pass the values of the inputs into the addQuestion method in the quiz object which will add them to question array
-      quiz.addQuestion(questionInput.value, correctInput.value, wrongOneInput.value, wrongTwoInput.value, wrongThreeInput.value);
-      //clear the inputs
-      questionInput.value = "";
-      correctInput.value = "";
-      wrongOneInput.value = "";
-      wrongTwoInput.value = "";
-      wrongThreeInput.value = "";
-    }
-  }
+            var updates = {};
+            updates['Teachers/' + user.uid + '/Quizzes/' + quizname + '/Question' + mycount] = postData;
+            firebase.database().ref().update(updates);
+            firebase.database().ref('Teachers/' + user.uid + '/Quizzes/' + quizname + '/').update({
+                qnumber: mycount,
+            });
+            mycount++;
+        },
 
-  var view = {
-    //This runs when you click start quiz
-    displayQuestions: function() {
-      //Hide the options to add questions and the info
-      var hideAdd = document.querySelector(".addQuestions");
-      var hideInfo = document.querySelector(".info");
-      hideAdd.style.display = "none";
-      hideInfo.style.display = "none";
-      //Clear the quesitons wrapper
-      var questionsWrapper = document.querySelector(".questionsWrapper");
-      questionsWrapper.innerHTML = "";
-
-      //for each quesiton in array create elements neede and give classes
-      quiz.questions.forEach(function(question, index) {
-        var questionDiv = document.createElement("div");
-        questionDiv.setAttribute("class", "questionDiv");
-        var nextButton = document.createElement("button");
-        nextButton.setAttribute("class", "nextButton");
-        var questionLi = document.createElement("li");
-        var correctLi = document.createElement("li");
-        correctLi.setAttribute("class", "correct");
-        var wrongOneLi = document.createElement("li");
-        wrongOneLi.setAttribute("class", "wrong");
-        var wrongTwoLi = document.createElement("li");
-        wrongTwoLi.setAttribute("class", "wrong");
-        var wrongThreeLi = document.createElement("li");
-        wrongThreeLi.setAttribute("class", "wrong");
-
-        //add each question div to the question wrapper
-        questionsWrapper.appendChild(questionDiv);
-
-        questionsWrapper.firstChild.classList.add("is-active");
-
-        //add the text to the inputs the values in the questions array
-        questionLi.textContent = question.question;
-        correctLi.textContent = question.correct;
-        wrongOneLi.textContent = question.wrongOne;
-        wrongTwoLi.textContent = question.wrongTwo;
-        wrongThreeLi.textContent = question.wrongThree;
-
-        //If its the last question the button should say finish if not it should say next
-        if (index === quiz.questions.length - 1) {
-          nextButton.textContent = "Finish";
-        } else {
-          nextButton.textContent = "Next";
+        movingToNextQuestion: function() {
+            //find all next buttons and add event lisener to them
+            var nextButton = document.querySelectorAll(".nextButton");
+            for (i = 0; i < nextButton.length; i++) {
+                nextButton[i].addEventListener("click", function(event) {
+                    //Find the element that was clicked
+                    var elementClicked = event.target;
+                    //If it was a next button then remove the is-active class from it parent
+                    if (elementClicked.className === "nextButton") {
+                        elementClicked.parentNode.classList.remove("is-active");
+                        //If there isnt a next sibling then reshow the options to add questions and the info div
+                        if (elementClicked.parentNode.nextElementSibling === null) {
+                            var showAdd = document.querySelector(".addQuestions");
+                            var showInfo = document.querySelector(".info");
+                            showAdd.style.display = "block";
+                            showInfo.style.display = "block";
+                        } else {
+                            //If there is a next siblng then add the is-active class to it
+                            elementClicked.parentNode.nextElementSibling.classList.add("is-active");
+                        }
+                    }
+                });
+            };
         }
+    };
+    var handlers = {
+        //This runs when you click add question button
+        addQuestion: function() {
+            //Get each of the inputs by id
+            var questionInput = document.getElementById("questionInput");
+            var correctInput = document.getElementById("correctInput");
+            var wrongOneInput = document.getElementById("wrongOneInput");
+            var wrongTwoInput = document.getElementById("wrongTwoInput");
+            var wrongThreeInput = document.getElementById("wrongThreeInput");
+            //pass the values of the inputs into the addQuestion method in the quiz object which will add them to question array
+            quiz.addQuestion(questionInput.value, correctInput.value, wrongOneInput.value, wrongTwoInput.value, wrongThreeInput.value);
+            //clear the inputs
+            questionInput.value = "";
+            correctInput.value = "";
+            wrongOneInput.value = "";
+            wrongTwoInput.value = "";
+            wrongThreeInput.value = "";
+        }
+    }
 
-        //Append elements to div
-        questionDiv.appendChild(questionLi);
+    var view = {
+        //This runs when you click start quiz
+        displayQuestions: function() {
+            //Hide the options to add questions and the info
+            var hideAdd = document.querySelector(".addQuestions");
+            var hideInfo = document.querySelector(".info");
+            hideAdd.style.display = "none";
+            hideInfo.style.display = "none";
+            //Clear the quesitons wrapper
+            var questionsWrapper = document.querySelector(".questionsWrapper");
+            questionsWrapper.innerHTML = "";
 
-        //put the answers in a random order before apprending them so correct isnt always 1st
-        var array = [correctLi, wrongOneLi, wrongTwoLi, wrongThreeLi];
-        array.sort(function(a, b) {
-          return 0.5 - Math.random()
-        });
-        array.forEach(function(item) {
-          questionDiv.appendChild(item);
-        });
+            //for each quesiton in array create elements neede and give classes
+            quiz.questions.forEach(function(question, index) {
+                var questionDiv = document.createElement("div");
+                questionDiv.setAttribute("class", "questionDiv");
+                var nextButton = document.createElement("button");
+                nextButton.setAttribute("class", "nextButton");
+                var questionLi = document.createElement("li");
+                var correctLi = document.createElement("li");
+                correctLi.setAttribute("class", "correct");
+                var wrongOneLi = document.createElement("li");
+                wrongOneLi.setAttribute("class", "wrong");
+                var wrongTwoLi = document.createElement("li");
+                wrongTwoLi.setAttribute("class", "wrong");
+                var wrongThreeLi = document.createElement("li");
+                wrongThreeLi.setAttribute("class", "wrong");
 
-        questionDiv.appendChild(nextButton);
+                //add each question div to the question wrapper
+                questionsWrapper.appendChild(questionDiv);
 
-        this.displayAnswersCorrect();
-        quiz.movingToNextQuestion();
+                questionsWrapper.firstChild.classList.add("is-active");
+
+                //add the text to the inputs the values in the questions array
+                questionLi.textContent = question.question;
+                correctLi.textContent = question.correct;
+                wrongOneLi.textContent = question.wrongOne;
+                wrongTwoLi.textContent = question.wrongTwo;
+                wrongThreeLi.textContent = question.wrongThree;
+
+                //If its the last question the button should say finish if not it should say next
+                if (index === quiz.questions.length - 1) {
+                    nextButton.textContent = "Finish";
+                } else {
+                    nextButton.textContent = "Next";
+                }
+
+                //Append elements to div
+                questionDiv.appendChild(questionLi);
+
+                //put the answers in a random order before apprending them so correct isnt always 1st
+                var array = [correctLi, wrongOneLi, wrongTwoLi, wrongThreeLi];
+                array.sort(function(a, b) {
+                    return 0.5 - Math.random()
+                });
+                array.forEach(function(item) {
+                    questionDiv.appendChild(item);
+                });
+
+                questionDiv.appendChild(nextButton);
+
+                this.displayAnswersCorrect();
+                quiz.movingToNextQuestion();
 
 
-      }, this);
-    },
+            }, this);
+        },
 
-    displayAnswersCorrect: function() {
-      var questionDiv = document.querySelectorAll(".questionDiv");
-      var correctAnswers = 0;
-      var answersCorrect = document.querySelector(".answersCorrect");
-      answersCorrect.textContent = "Correct answers: " + correctAnswers;
-
-      //add click event to each question div if the element clicked has class correct then add 1 to correctAnswers and change the color of element to green.
-      //Else change the color of element to red and find the elemtn with correct class and make it green
-      for (var i = 0; i < questionDiv.length; i++) {
-        questionDiv[i].onclick = function(event) {
-          event = event || window.event;
-          if (event.target.className === "correct") {
-            correctAnswers++;
+        displayAnswersCorrect: function() {
+            var questionDiv = document.querySelectorAll(".questionDiv");
+            var correctAnswers = 0;
+            var answersCorrect = document.querySelector(".answersCorrect");
             answersCorrect.textContent = "Correct answers: " + correctAnswers;
-            event.target.style.color = "#2ecc71";
-          } else if (event.target.className === "wrong") {
-            event.target.style.color = "#e74c3c";
-            var itemChildren = event.target.parentNode.children;
-            for (i = 0; i < itemChildren.length; i++) {
-              if (itemChildren[i].classList.contains("correct")) {
-                itemChildren[i].style.color = "#2ecc71";
-              }
+
+            //add click event to each question div if the element clicked has class correct then add 1 to correctAnswers and change the color of element to green.
+            //Else change the color of element to red and find the elemtn with correct class and make it green
+            for (var i = 0; i < questionDiv.length; i++) {
+                questionDiv[i].onclick = function(event) {
+                    event = event || window.event;
+                    if (event.target.className === "correct") {
+                        correctAnswers++;
+                        answersCorrect.textContent = "Correct answers: " + correctAnswers;
+                        event.target.style.color = "#2ecc71";
+                    } else if (event.target.className === "wrong") {
+                        event.target.style.color = "#e74c3c";
+                        var itemChildren = event.target.parentNode.children;
+                        for (i = 0; i < itemChildren.length; i++) {
+                            if (itemChildren[i].classList.contains("correct")) {
+                                itemChildren[i].style.color = "#2ecc71";
+                            }
+                        }
+                    }
+                    //Remove correct and wrong classes so the same question the score cant go up and colors cant chaneg
+                    var itemChildren = event.target.parentNode.children;
+                    for (i = 0; i < itemChildren.length; i++) {
+                        itemChildren[i].classList.remove("correct");
+                        itemChildren[i].classList.remove("wrong");
+                    }
+                }
             }
-          }
-          //Remove correct and wrong classes so the same question the score cant go up and colors cant chaneg
-          var itemChildren = event.target.parentNode.children;
-          for (i = 0; i < itemChildren.length; i++) {
-            itemChildren[i].classList.remove("correct");
-            itemChildren[i].classList.remove("wrong");
-          }
+
+        },
+
+        //count objects in array to show how many questions added to screen
+        displayNumberOfQuestions: function() {
+            var numberLi = document.getElementById("NumberQuestionsInQuiz");
+            if (quiz.questions.length === 1) {
+                numberLi.textContent = "You currently have " + quiz.questions.length + " question added to your quiz";
+            } else {
+                numberLi.textContent = "You currently have " + quiz.questions.length + " questions added to your quiz";
+            }
         }
-      }
-
-    },
-
-    //count objects in array to show how many questions added to screen
-    displayNumberOfQuestions: function() {
-      var numberLi = document.getElementById("NumberQuestionsInQuiz");
-      if (quiz.questions.length === 1) {
-        numberLi.textContent = "You currently have " + quiz.questions.length + " question added to your quiz";
-      } else {
-        numberLi.textContent = "You currently have " + quiz.questions.length + " questions added to your quiz";
-      }
     }
-  }
 
-  //ensures the user is logged in
-  firebase.auth().onAuthStateChanged(function(user) {
-    if (user) {
-      user = user;
-      myuser = user;
-      if (!user.emailVerified) {
-        user.sendEmailVerification().then(function() {
-          alert("A verification email has been sent to your address, please use it before you can log in");
-          firebase.auth().signOut();
-        }).catch(function(error) {
+    //ensures the user is logged in
+    firebase.auth().onAuthStateChanged(function(user) {
+        if (user) {
+            user = user;
+            myuser = user;
+            if (!user.emailVerified) {
+                user.sendEmailVerification().then(function() {
+                    alert("A verification email has been sent to your address, please use it before you can log in");
+                    firebase.auth().signOut();
+                }).catch(function(error) {
 
+                });
+            } else {
+                $("#logsign").hide();
+                $("#accountout").show();
+                $("#keys").show();
+            }
+        } else {
+            $("#logsign").show();
+            $("#accountout").hide();
+            $("#keys").hide();
+            window.location = "index.html";
+        }
+        firebase.database().ref("Teachers/" + user.uid).once("value", snapshot => {
+            const data = snapshot.val();
+            if (data) {} else {
+                alert("Oops, looks like you ended up somewhere you're not supposed to be!");
+                window.location = "index.html";
+            }
         });
-      } else {
-        $("#logsign").hide();
-        $("#accountout").show();
-        $("#keys").show();
-      }
-    } else {
-      $("#logsign").show();
-      $("#accountout").hide();
-      $("#keys").hide();
-      window.location = "index.html";
+
+        var ref = firebase.database().ref("Teachers/" + user.uid + "/Classrooms");
+        ref.on("child_added", function(snapshot) {
+            var drpDwnMenu = document.getElementById("dropdown-menu");
+            var node = document.createElement("LI");
+            drpDwnMenu.appendChild(node);
+            var href = "classroom.html";
+            href += "?classroom=" + snapshot.key;
+            var newListItem = $(drpDwnMenu).append("<a href='" + href + "'>" + snapshot.key + "</a>");
+            console.log(snapshot);
+            $("#selclass").append("<option>" + snapshot.key + "</option>");
+            $(".selectpicker").selectpicker('refresh');
+        });
+    });
+
+    function logOut() {
+        firebase.auth().signOut();
     }
-    firebase.database().ref("Teachers/" + user.uid).once("value", snapshot => {
-      const data = snapshot.val();
-      if (data) {} else {
-        alert("Oops, looks like you ended up somewhere you're not supposed to be!");
-        window.location = "index.html";
-      }
-    });
-  });
 
-  function logOut() {
-    firebase.auth().signOut();
-  }
+    creategames = function() {
+        var mcerror = document.getElementById("mcerror");
+        var mcgamenameinput = document.getElementById("gameNameInput");
+        quizname = mcgamenameinput.value;
+        //$("#mccontainer2").show();
+        //$("#mccontainer1").hide();
+        firebase.database().ref("Teachers/" + myuser.uid + "/Quizzes/" + quizname).once("value", snapshot => {
+            const data = snapshot.val();
+            console.log(data);
+            if (mcgamenameinput.value.match(/\D/) != null && !data) {
+                //variable to store new multiple choice quiz name
 
-  creategames = function() {
-    var mcerror = document.getElementById("mcerror");
-    var mcgamenameinput = document.getElementById("gameNameInput");
-    quizname = mcgamenameinput.value;
-    //$("#mccontainer2").show();
-    //$("#mccontainer1").hide();
-    firebase.database().ref("Teachers/" + myuser.uid + "/Quizzes/" + quizname).once("value", snapshot => {
-      const data = snapshot.val();
-      console.log(data);
-      if (mcgamenameinput.value.match(/\D/) != null && !data) {
-        //variable to store new multiple choice quiz name
+                mcgamenameinput.value = null; // clear input field if value accepted
+                $("#mc-container2").show("slow");
+                $("#mc-container1").hide("slow");
+                var classroom = $('select[id=selclass]').val();
+                var postData = {
+                    active: false,
+                    name: quizname,
+                    classroom: classroom,
+                    teacher: myuser.uid
+                };
+                var updates = {};
+                updates['Teachers/' + myuser.uid + '/Quizzes/' + quizname] = postData;
+                return firebase.database().ref().update(updates);
+            } else {
+                mcerror.setAttribute('style', 'visibility: visible; color:red');
+            }
+        });
 
-        mcgamenameinput.value = null; // clear input field if value accepted
-        $("#mc-container2").show("slow");
-        $("#mc-container1").hide("slow");
+    }
 
-        var postData = {
-          active: false,
-          name: quizname
-        }
-        var updates = {};
-        updates['Teachers/' + myuser.uid + '/Quizzes/' + quizname] = postData;
-        return firebase.database().ref().update(updates);
-      } else {
-        mcerror.setAttribute('style', 'visibility: visible; color:red');
-      }
-    });
+    mcclear = function() {
+        // switch visible containers
+        $("#mc-container1").show();
+        $("#mc-container2").hide();
+        // hide the Error <p> by ID
+        $("#mcerror").hide();
+        var mcgamenameinput = document.getElementById("gameNameInput");
 
-  }
+        mcgamenameinput.value = null; // clear input field
+    }
 
-  mcclear = function() {
-    // switch visible containers
-    $("#mc-container1").show();
-    $("#mc-container2").hide();
-    // hide the Error <p> by ID
-    $("#mcerror").hide();
-    var mcgamenameinput = document.getElementById("gameNameInput");
-
-    mcgamenameinput.value = null; // clear input field
-  }
 </script>
 
 </html>

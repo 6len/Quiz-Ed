@@ -29,11 +29,7 @@
         <ul class="nav navbar-nav">
           <li><a href="index.html">Home</a></li>
           <li class="dropdown"><a class="dropdown-toggle" data-toggle="dropdown" href="classroom.html">Classes <span class="caret"></span></a>
-            <ul class="dropdown-menu">
-              <li><a href="classroom.html">MsMcGovernGeo</a></li>
-              <li><a href="classroom.html">MsDalyMaths</a></li>
-              <li><a href="classroom.html">MrNooneWoodwork</a></li>
-            </ul>
+            <ul class="dropdown-menu" id="dropdown-menu"></ul>
 
           </li>
           <li><a href="classroomcreation.html">Classroom Creation</a></li>
@@ -98,6 +94,8 @@
     var rightAnswer = 0;
     var currentq;
     var questionshuffle = [];
+    var teacher;
+    var classroom;
     //---------------------------------------------------------------
 
 
@@ -130,6 +128,17 @@
       }
       //Calls function to check if the user is a teacher account
       teachcheck();
+	  
+	  //display the currents teacher's classes in the dropdown menu in the nav bar
+	  var ref = firebase.database().ref("Teachers/" + user.uid + "/Classrooms");
+		ref.on("child_added", function(snapshot){
+			var drpDwnMenu = document.getElementById("dropdown-menu");
+			var node = document.createElement("LI");
+			drpDwnMenu.appendChild(node);
+			var href = "classroom.html";
+			href += "?classroom=" + snapshot.key;
+			var newListItem = $(drpDwnMenu).append("<a href='" + href + "'>" + snapshot.key + "</a>");
+		});
     });
 
     //fills the page with teachers administrative options, otherwise fills with students
@@ -271,6 +280,8 @@
           clearInterval(checkIt);
           //sets the quiz start time
           quiztime = quizsnap.val().starttime;
+          teacher = quizsnap.val().teacher;
+          classroom = quizsnap.val().classroom;
           console.log(thetime);
           console.log(quiztime);
           console.log((thetime - quiztime));
@@ -299,6 +310,12 @@
         thefield.innerHTML = "<h1> The Quiz Has Ended </h1><br><h1>You scored "+rightAnswer+"/"+qamount+"</h1>";
 
         clearInterval(quizFill);
+        
+        firebase.database().ref("Teachers/" + teacher + "/Classrooms/"+classroom+"/StudentList/"+myuser.displayName+"/Grades/"+quizcode).update({
+                Grade : (rightAnswer/qamount)*100,
+                Points : rightAnswer
+            });
+        
       } else {
         //fills the screen with the question information
         console.log(quizsnap.val());
