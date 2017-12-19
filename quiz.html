@@ -389,8 +389,12 @@
             $("#keys").hide();
             window.location = "index.html";
         }
+        //calls db to check for teachers on authentication state change
         firebase.database().ref("Teachers/" + user.uid).once("value", snapshot => {
+            //stores the information we recieve from the db in a const
             const data = snapshot.val();
+            /*checks if the const has data, if it does that's fine, otherwise we are dealing with a student account and must
+            redirect them*/
             if (data) {} else {
                 alert("Oops, looks like you ended up somewhere you're not supposed to be!");
                 window.location = "index.html";
