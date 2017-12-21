@@ -259,9 +259,12 @@
 
 
     <script>
+        //Global variables to define the user and name.
         var myuser;
         var name; 
+        //----------------------------------
         
+        //Functions to ensure that we show login/logout correctly based on if a user is logged in
         function signShow() {
             $("#ogBtns").hide();
             $("#LogInForm").fadeOut(500);
@@ -279,7 +282,10 @@
                 $("#LogInForm").fadeIn(500);
             });
         }
-
+        //-------------------------------------
+        
+        
+        //function to allow a user to log in as per firebase docs
         function log() {
             var email = $("#email").val();
             var password = $("#pwd").val();
@@ -290,7 +296,9 @@
                 // ...
             });
         }
+        //-------------------------------------
 
+        //function allowing users to sign up based off of firebase docs, there is some added functionality later.
         function sign() {
             name = $("#sign-name").val();
             var email = $("#sign-email").val();
@@ -309,18 +317,23 @@
             }
 
         }
+        //----------------------------------------
 
-
-
+        
+        //function that activates on authentication change
         firebase.auth().onAuthStateChanged(function(user) {
             if (user) {
                 var user = user;
+                //stores the user in the global variable defined earlier.
                 myuser = user;
+                //ensures that if we're working with a new user, their name is set upon signing up
                 if(name != ""){
                         user.updateProfile({
                             displayName: name
                         });
                     }
+                //checks if the user is email verified, if they are allows them to continue, otherwise it logs them out and notifies them they should
+                //verify their email before they can continue.
                 if (!user.emailVerified) {
                     user.sendEmailVerification().then(function() {
                         alert("A verification email has been sent to your address, please use it before you can log in");
@@ -329,6 +342,7 @@
 
                     });
                 } else {
+                    //ensures that we are changing the buttons to the logged out state
                     console.log('user', user);
                     $("#forms").fadeOut(500);
                     $("#LogInForm").fadeOut(500);
@@ -337,13 +351,17 @@
                     $("#accountout").show();
                 }
             } else {
+                //otherwise we change the buttons to the logged in state
                 $("#logsign").show();
                 $("#accountout").hide();
                 $("#keys").hide();
                 $("#stukeys").hide();
             }
+            //checks if the user we are dealing with is a teacher
             teachcheck();
-			
+            
+            
+			//this code was done by adam--------
 			var ref = firebase.database().ref("Teachers/" + user.uid + "/Classrooms");
 			ref.on("child_added", function(snapshot){
 				var drpDwnMenu = document.getElementById("dropdown-menu");
@@ -353,6 +371,9 @@
 				href += "?classroom=" + snapshot.key;
 				var newListItem = $(drpDwnMenu).append("<a href='" + href + "'>" + snapshot.key + "</a>");
 			});
+            //-----------------------------------
+            
+            
             var ref = firebase.database().ref("Teachers/" + myuser.uid).once("value", snapshot => {
                 const data = snapshot.val();
                 if (data) {
@@ -364,7 +385,7 @@
             });
         });
 
-
+        //checks if we are dealing with a teacher
         function teachcheck(){
             var ref = firebase.database().ref("Teachers/" + myuser.uid).once("value", snapshot => {
                 const data = snapshot.val();
@@ -377,6 +398,7 @@
             });
         }
         
+        //allows the user to log out, this will also cause an onAuthenticationStateChange
         function logOut() {
             document.getElementById("sign-name").innerHTML = null;
             firebase.auth().signOut();

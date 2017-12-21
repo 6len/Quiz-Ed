@@ -7,6 +7,10 @@
     <link rel="stylesheet" href="bootstrap/3.3.7/css/bootstrap.min.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
     <script src="bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.12.4/css/bootstrap-select.min.css">
+
+    <!-- Latest compiled and minified JavaScript -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.12.4/js/bootstrap-select.min.js"></script>
 
     <link rel="icon" type="image/png" href="croissant.png">
 
@@ -14,12 +18,6 @@
 
     <script src="hangman.js"></script>
     <link rel="stylesheet" type="text/css" href="hangmanStylesheet.css">
-
-    <!-- Latest compiled and minified CSS -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.12.4/css/bootstrap-select.min.css">
-
-    <!-- Latest compiled and minified JavaScript -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.12.4/js/bootstrap-select.min.js"></script>
 
 
 
@@ -389,12 +387,8 @@
             $("#keys").hide();
             window.location = "index.html";
         }
-        //calls db to check for teachers on authentication state change
         firebase.database().ref("Teachers/" + user.uid).once("value", snapshot => {
-            //stores the information we recieve from the db in a const
             const data = snapshot.val();
-            /*checks if the const has data, if it does that's fine, otherwise we are dealing with a student account and must
-            redirect them*/
             if (data) {} else {
                 alert("Oops, looks like you ended up somewhere you're not supposed to be!");
                 window.location = "index.html";

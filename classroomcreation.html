@@ -221,12 +221,13 @@
                             </div>
                             <div class="form-group">
                                 <div>
-                                    <button class="btn btn-custom "  type="button" onclick = "createClass()">
+                                    <button class="btn btn-custom " type="button" onclick="createClass()">
         Submit
        </button>
                                 </div>
                             </div>
                         </form>
+                        <div id="submitted"></div>
                     </div>
                 </div>
             </div>
@@ -250,6 +251,7 @@
 </script>
 
 <script>
+    //Global variables for storing the values in the form
     var cName;
     var eKey;
     var subject;
@@ -257,6 +259,10 @@
     var sMessage;
     var database = firebase.database();
     var myuser;
+    //-------------------------------------------------------
+
+    //Altered on authentication function to ensure that we are dealing with teachers and not students
+    //otherwise this function is the same as the one on the home page.
     firebase.auth().onAuthStateChanged(function(user) {
         if (user) {
             user = user;
@@ -279,6 +285,7 @@
             $("#keys").hide();
             window.location = "index.html";
         }
+        //this is the aprt where it checks if we are dealing with a teacher - if not it redirects them
         firebase.database().ref("Teachers/" + user.uid).once("value", snapshot => {
             const data = snapshot.val();
             if (data) {} else {
@@ -298,6 +305,7 @@
         });
     });
 
+    //function for creating a new classroom
     function createClass() {
         cName = $("#classroomname").val();
         eKey = $("#enrollmentkey").val();
@@ -305,13 +313,26 @@
         email = $("#email").val();
         sMessage = $("textarea").val();
 
+        //ensuring that we have a class name and an enrollment key before creating
         if (cName != null && eKey != null) {
+            //creates the classroom with the specified information
             firebase.database().ref('Teachers/' + myuser.uid + "/Classrooms/" + cName + "/").update({
                 eKey: eKey,
                 subject: subject,
                 email: email,
                 message: sMessage
             });
+            //brings up a visual acknowlegement that the classroom was created
+            document.getElementById("submitted").innerHTML = '<p><font face="verdana" size = "5" color="green"> Classroom ' + cName + ' created</font></p > ';
+            
+            //shows the acknowledgement on the screen
+            $("#submitted").show();
+
+            //waits 5 seconds before fading the acknowledgement out
+            setTimeout(function() {
+                $("#submitted").fadeOut(600);
+            }, 5000);
+
         }
     }
 
