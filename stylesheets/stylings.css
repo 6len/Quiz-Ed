@@ -1,0 +1,184 @@
+
+body {
+
+	font-family: 'Muli';
+	color: #0066ff;
+	background-color: #2c3e50;
+}
+
+.logostyle{
+	color: white;
+	text-shadow: 1px 1px black;
+	font-family: Palatino Linotype, sans-serif;
+	font-size: 46px;
+	text-align: center;
+	margin-top: 20px;
+	margin-bottom: 10px;
+	line-height: 1.1;
+}
+
+header.masthead {
+    background: url('https://assets.infusionsoft.com/image/upload/c_limit,q_70,w_1900/Zz1lN2EwODQwOTJkZjE1NTE3YzQ3OTlmNWRlYjM2YmYzZQ%3D%3D.jpg') no-repeat center center fixed;
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    background-size: fill;
+    -o-background-size: cover;
+	/*background-color: #2c3e50;*/
+	padding-bottom: 11%;
+	/*parallax effect
+	background-attachment: fixed;
+    background-position: center;
+    background-repeat: no-repeat;*/
+}
+
+header.masthead > .overlay {
+    padding: 5rem 0;
+    text-align: center;
+}
+
+@media (min-width: 992px) {
+    header.masthead > .overlay {
+        padding: 10rem 0;
+    }
+}
+
+
+.guestBtn{
+	margin-top: 10px;
+}
+
+.formBackground{
+	box-shadow: 1px 1px 25px rgba(0, 0, 0, 0.35);
+	border: 6px solid #8080ff;
+	margin-top: 15px;
+	background-color: #e6f7ff;
+	border-radius: 10px;
+	padding-top: 5px;
+	padding-left: 20px;
+	padding-right: 20px;
+	padding-bottom:10px;
+	margin-left:18%;
+	margin-right:18%;
+}
+
+.formSwitch{
+	margin-top: 8px;
+}
+
+#SignInForm, #LogInForm, #forms{
+    display: none;
+}
+#thenav{
+    display: none;
+    min-height: 0;
+}
+
+.navbar{
+	margin-bottom:0%;
+	padding-bottom:0%;
+}
+
+.slide-wrapper{
+	height:45%;
+	width:100%;
+}
+
+.carousel-img{
+	padding-top: 25px;
+	padding-bottom: 25px;
+}
+
+.carousel-inner{
+	  border-top: solid 3px white;
+}
+
+.carousel-inner,.carousel,.item,.container,.fill {
+  height:100%;
+  width:100%;
+  background-position:center center;
+  background-size:cover;
+}
+.slide-wrapper{display:inline;}
+.slide-wrapper .container{padding:0px;}
+
+/*------------------------------ vertical bootstrap slider----------------------------*/
+
+.carousel-inner> .item.next ,  .carousel-inner > .item.active.right{ transform: translateY(100%); -webkit-transform: translateY(100%); -ms-transform: translateY(100%);
+-moz-transform: translateY(100%); -o-transform: translateY(100%);  top: 0;left:0;}
+.carousel-inner > .item.prev ,.carousel-inner > .item.active.left{ transform: translateY(-100%); -webkit-transform: translateY(-100%);  -moz-transform: translateY(-100%);
+-ms-transform: translateY(-100%); -o-transform: translateY(-100%); top: 0; left:0;}
+.carousel-inner > .item.next.left , .carousel-inner > .item.prev.right , .carousel-inner > .item.active{transform:translateY(0); -webkit-transform:translateY(0);
+-ms-transform:translateY(0);-moz-transform:translateY(0); -o-transform:translateY(0); top:0; left:0;}
+
+/*------------------------------- vertical carousel indicators ------------------------------*/
+.carousel-indicators{
+position:absolute;
+top:0;
+bottom:0;
+margin:auto;
+height:20px;
+right:10px; left:auto;
+width:auto;
+}
+.carousel-indicators li{display:block; margin-bottom:5px; border:1px solid #00a199; }
+.carousel-indicators li.active{margin-bottom:5px; background:#00a199;}
+/*-------- Animation slider ------*/
+
+.animated{
+	animation-duration:3s;
+	-webkit-animation-duration:3s;
+	-moz-animation-duration:3s;
+	-ms-animation-duration:3s;
+	-o-animation-duration:3s;
+	visibility:visible;
+	opacity:1;
+	transition:all 0.3s ease;
+}
+.carousel-img{   
+	 display: inline-block;
+    margin: 0 auto;
+    width: 100%;
+    text-align: center;
+	}
+.item img{margin:auto;visibility:hidden; opacity:0; transition:all 0.3s ease; -webkit-transition:all 0.3s ease; -moz-transition:all 0.3s ease; -ms-transition:all 0.3s ease; -o-transition:all 0.3s ease;}
+.item1 .carousel-img img , .item1.active .carousel-img img{max-height:300px;}
+.item1.active .carousel-img img.animated{visibility:visible; opacity:1; transition:all 1s ease; -webkit-transition:all 1s ease; -moz-transition:all 1s ease; -ms-transition:all 1s ease; -o-transition:all 1s ease;
+animation-duration:2s; -webkit-animation-duration:2s; -moz-animation-duration:2s; -ms-animation-duration:2s; -o-animation-duration:2s; animation-delay:0.3s ; -webkit-animation-delay:0.3s;
+-moz-animation-delay:0.3s;-ms-animation-delay:0.3s; }
+.item .carousel-desc{color:#fff; text-align:center;}
+.item  h2{font-size:50px; animation-delay:1.5s;animation-duration:1s; }
+.item  p{animation-delay:2.5s;animation-duration:1s; width:50%; margin:auto;}
+
+.item2 .carousel-img img , .item2.active .carousel-img img{max-height:300px;}
+.item2.active .carousel-img img.animated{visibility:visible; opacity:1; transition:all 0.3s ease; animation-duration:3s; animation-delay:0.3s}
+.item2 h2 , item2.active h2{visibility:hidden; opacity:0; transition:all 5s ease;}
+.item2.active h2.animated{visibility:visible; opacity:1;  animation-delay:3s;}
+
+.item .fill{padding:0px 30px; display:table; }
+.item .inner-content{display: table-cell;vertical-align: middle;}
+.item3 .col-md-6{float:none; display:inline-block; vertical-align:middle; width:49%;}
+
+.item3.active .carousel-img img.animated{visibility:visible; opacity:1; transition:all 0.3s ease; animation-duration:2s; animation-delay:0.3s}
+.item3 h2 , item3.active h2{visibility:hidden; opacity:0; transition:all 5s ease; }
+.item.item3 .carousel-desc{text-align:left;}
+.item3.active h2.animated{visibility:visible; opacity:1;  animation-delay:1.5s}
+.item3 p , item3.active p{visibility:hidden; opacity:0; transition:all 5s ease; width:100%;  }
+.item3.active p.animated{visibility:visible; opacity:1;  animation-delay:2.5s;}
+
+@media(max-width:991px)
+{
+	.item .carousel-desc , .item.item3 .carousel-desc{text-align:center;}
+	.item .carousel-desc p {width:80%;}
+	.item3 .col-md-6{width:100%; text-align:center;}
+}
+@media(max-width:768px)
+{
+.item .carousel-img img, .item.active .carousel-img img{max-height:155px;}
+.item  h2{font-size:30px; margin-top:0px;}
+.item .carousel-desc p{width:100%; font-size:12px;}
+}
+@media(max-width:480px)
+{
+.item  h2{font-size:30px;}
+.item .carousel-desc p{width:100%;}
+}

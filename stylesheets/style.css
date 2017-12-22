@@ -1,0 +1,63 @@
+
+body {
+
+	font-family: 'Muli';
+	color: #0066ff;
+}
+
+header.masthead {
+    background: url('http://www.hdwallpapery.com/static/images/Alien_Ink_2560X1600_Abstract_Background_O6vEfFj.jpg') no-repeat center center scroll;
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    background-size: cover;
+    -o-background-size: cover;
+}
+
+header.masthead > .overlay {
+    padding: 5rem 0;
+    text-align: center;
+}
+
+@media (min-width: 992px) {
+    header.masthead > .overlay {
+        padding: 10rem 0;
+    }
+}
+
+.formBackground{
+	margin-top: 15px;
+	background-color: #e6f7ff;
+	border-radius: 10px;
+	padding-top: 5px;
+	padding-left: 20px;
+	padding-right: 20px;
+	padding-bottom:10px;
+	margin-left:10%;
+	margin-right:10%;
+}
+
+#SignInForm{
+	display:none;
+}
+
+.btn1{
+	background-color: white;
+	border-color: #0066ff;
+	color: #0066ff;
+	padding-top: 10px;
+	padding-bottom:10px;
+	padding-left: 20px;
+	padding-right: 20px;
+	border-radius:6px;
+}
+
+.btn2{
+	background-color: #0066ff;
+	border-color: white;
+	color: white;
+	padding-top: 10px;
+	padding-bottom:10px;
+	padding-left: 20px;
+	padding-right: 20px;
+	border-radius:6px;
+}
